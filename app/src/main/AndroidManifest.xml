@@ -26,6 +26,9 @@
         <activity
             android:name=".hilt.HiltActivity"
             android:exported="true" />
+        <activity
+            android:name=".lifecycle.LifecycleActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

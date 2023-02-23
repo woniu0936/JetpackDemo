@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.demo.jetpack.databinding.ActivityMainBinding
 import com.demo.jetpack.hilt.HiltActivity
+import com.demo.jetpack.lifecycle.LifecycleActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +21,11 @@ class MainActivity : AppCompatActivity() {
     private fun initEvent() = with(mBinding) {
         btnHilt.setOnClickListener {
             var intent = Intent(this@MainActivity, HiltActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnLifecycle.setOnClickListener {
+            var intent = Intent(this@MainActivity, LifecycleActivity::class.java)
             startActivity(intent)
         }
     }
