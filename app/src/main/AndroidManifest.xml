@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.demo.jetpack">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".DemoApp"
         android:allowBackup="true"
@@ -28,6 +30,10 @@
             android:exported="true" />
         <activity
             android:name=".lifecycle.LifecycleActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".viewmodel.DemoActivity"
             android:exported="true" />
     </application>
 
