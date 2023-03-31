@@ -28,7 +28,7 @@ class DemoActivity : AppCompatActivity() {
 
     private fun initView() = with(mBinding) {
         recyclerView.layoutManager = LinearLayoutManager(this@DemoActivity)
-        recyclerView.adapter = mAdapter
+        recyclerView.adapter = mAdapter.withLoadStateFooter(FooterAdapter { mAdapter.retry() })
 
         mAdapter.addLoadStateListener {
             when (it.refresh) {
@@ -36,10 +36,12 @@ class DemoActivity : AppCompatActivity() {
                     progressBar.visibility = View.INVISIBLE
                     recyclerView.visibility = View.VISIBLE
                 }
+
                 is LoadState.Loading -> {
                     progressBar.visibility = View.VISIBLE
                     recyclerView.visibility = View.INVISIBLE
                 }
+
                 is LoadState.Error -> {
                     val state = it.refresh as LoadState.Error
                     progressBar.visibility = View.INVISIBLE
