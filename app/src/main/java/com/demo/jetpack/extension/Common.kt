@@ -1,4 +1,4 @@
-package com.demo.jetpack.core
+package com.demo.jetpack.extension
 
 import android.content.Context
 import android.content.Intent
@@ -11,5 +11,23 @@ inline fun <reified T : AppCompatActivity> AppCompatActivity.startActivity(conte
         putExtras(bundle)
     }.also {
         startActivity(it)
+    }
+}
+
+val Any?.isNotNull
+    get() = this != null
+
+val Any?.isNull
+    get() = this == null
+
+inline fun <reified T> T?.ifNull(block: () -> Unit) {
+    if (this.isNull) {
+        block.invoke()
+    }
+}
+
+inline fun <reified T> T?.ifNotNull(block: T.() -> Unit) {
+    if (this.isNotNull) {
+        block.invoke(this!!)
     }
 }

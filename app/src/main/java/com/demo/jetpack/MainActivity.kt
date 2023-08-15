@@ -2,7 +2,7 @@ package com.demo.jetpack
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.demo.jetpack.core.startActivity
+import com.demo.jetpack.extension.startActivity
 import com.demo.jetpack.extension.viewBindings
 import com.demo.jetpack.databinding.ActivityMainBinding
 import com.demo.jetpack.databinding.ActivityMainBinding.inflate
