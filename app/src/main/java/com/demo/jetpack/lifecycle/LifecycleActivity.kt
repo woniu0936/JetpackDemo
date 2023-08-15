@@ -3,8 +3,7 @@ package com.demo.jetpack.lifecycle
 import android.animation.ValueAnimator
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.demo.jetpack.core.logD
-import dagger.hilt.android.ViewModelLifecycle
+import com.demo.jetpack.extension.logD
 
 class LifecycleActivity : AppCompatActivity() {
 
