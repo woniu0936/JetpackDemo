@@ -5,11 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-inline fun <reified T : AppCompatActivity> AppCompatActivity.startActivity(context: Context, bundle: Bundle? = null) {
+inline fun <reified T : AppCompatActivity> AppCompatActivity.startActivity(context: Context, block: Bundle.() -> Unit = {}) {
+    val bundle = Bundle().apply { block() }
     Intent(context, T::class.java).apply {
-        bundle?.let {
-            putExtras(it)
-        }
+        putExtras(bundle)
     }.also {
         startActivity(it)
     }

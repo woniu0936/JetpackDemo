@@ -9,7 +9,7 @@ fun ValueAnimator.bindLifecycle(owner: LifecycleOwner) {
     owner.lifecycle.addObserver(AnimatorLCO(this))
 }
 
-class AnimatorLCO(val va: ValueAnimator) : DefaultLifecycleObserver {
+class AnimatorLCO(private val va: ValueAnimator) : DefaultLifecycleObserver {
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)

@@ -7,12 +7,19 @@ import com.demo.jetpack.core.data.remote.GitHubService
 import com.demo.jetpack.core.data.remote.Repo
 import com.demo.jetpack.core.data.remote.RepoPagingSource
 import kotlinx.coroutines.flow.Flow
+import java.lang.reflect.Constructor
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object Repository {
+@Singleton
+class Repository @Inject constructor() {
 
-    private const val PAGE_SIZE = 50
+    companion object {
+        private const val PAGE_SIZE = 50
+    }
 
-    private val gitHubService = GitHubService.create()
+    @Inject
+    lateinit var gitHubService: GitHubService
 
     fun getPagingData(): Flow<PagingData<Repo>> {
         return Pager(

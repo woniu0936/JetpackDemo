@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.demo.jetpack.extension.viewBindings
 import com.demo.jetpack.databinding.ActivityDemoBinding
 import com.demo.jetpack.databinding.ActivityDemoBinding.inflate
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class DemoActivity : AppCompatActivity() {
 
     private val mBinding: ActivityDemoBinding by viewBindings(::inflate)

@@ -6,12 +6,19 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.demo.jetpack.core.data.remote.Repo
 import com.demo.jetpack.core.data.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class DemoViewModel : ViewModel() {
+@HiltViewModel
+class DemoViewModel @Inject constructor() : ViewModel() {
+
+    @Inject
+    lateinit var mRepository: Repository
 
     fun getPagingData(): Flow<PagingData<Repo>> {
-        return Repository.getPagingData().cachedIn(viewModelScope)
+        return mRepository.getPagingData().cachedIn(viewModelScope)
     }
 
 }
