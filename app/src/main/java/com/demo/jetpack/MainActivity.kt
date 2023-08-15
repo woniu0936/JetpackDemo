@@ -8,6 +8,7 @@ import com.demo.jetpack.databinding.ActivityMainBinding
 import com.demo.jetpack.databinding.ActivityMainBinding.inflate
 import com.demo.jetpack.hilt.HiltActivity
 import com.demo.jetpack.lifecycle.LifecycleActivity
+import com.demo.jetpack.mavericks.Mavericks01Activity
 import com.demo.jetpack.viewmodel.DemoActivity
 
 class MainActivity : AppCompatActivity() {
@@ -29,9 +30,12 @@ class MainActivity : AppCompatActivity() {
             startActivity<LifecycleActivity>(this@MainActivity)
         }
 
-
         btnPaging.setOnClickListener {
             startActivity<DemoActivity>(this@MainActivity)
+        }
+
+        btnMavericks.setOnClickListener {
+            startActivity<Mavericks01Activity>(this@MainActivity)
         }
     }
 

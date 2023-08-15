@@ -35,6 +35,10 @@
         <activity
             android:name=".viewmodel.DemoActivity"
             android:exported="true" />
+
+        <activity
+            android:name=".mavericks.Mavericks01Activity"
+            android:exported="true" />
     </application>
 
 </manifest>
