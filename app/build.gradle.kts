@@ -66,6 +66,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.paging)
+    implementation(libs.androidx.coordinatorlayout)
+    implementation(libs.material)
     implementation(libs.constraintlayout)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

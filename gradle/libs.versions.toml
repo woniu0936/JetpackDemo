@@ -154,6 +154,7 @@ androidx-window-rxjava2 = { module = "androidx.window:window-rxjava2", version.r
 androidx-window-core = { module = "androidx.window:window-core", version.ref = "androidx-window" }
 androidx-media = "androidx.media:media:1.6.0"
 androidx-constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
+androidx-coordinatorlayout = "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-draganddrop = "androidx.draganddrop:draganddrop:1.0.0"
 androidx-dynamicanimation = "androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03"

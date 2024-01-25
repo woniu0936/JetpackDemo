@@ -39,6 +39,33 @@
         <activity
             android:name=".mavericks.Mavericks01Activity"
             android:exported="true" />
+        <activity
+            android:name=".motionlayout.MotionLayoutActivity01"
+            android:exported="true" />
+        <activity
+            android:name=".motionlayout.MotionLayoutActivity02"
+            android:exported="true" />
+        <activity
+            android:name=".motionlayout.MotionLayoutActivity03"
+            android:exported="true" />
+        <activity
+            android:name=".motionlayout.MotionLayoutActivity04"
+            android:exported="true" />
+        <activity
+            android:name=".motionlayout.MotionLayoutActivity05"
+            android:exported="true" />
+        <activity
+            android:name=".motionlayout.MotionLayoutActivity06"
+            android:exported="true" />
+        <activity
+            android:name=".motionlayout.MotionLayoutActivity07"
+            android:exported="true" />
+        <activity
+            android:name=".motionlayout.MotionLayoutActivity08"
+            android:exported="true" />
+        <activity
+            android:name=".motionlayout.MotionLayoutActivity09"
+            android:exported="true" />
     </application>
 
 </manifest>
