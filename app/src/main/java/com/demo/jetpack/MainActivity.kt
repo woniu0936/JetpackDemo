@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.demo.jetpack.databinding.ActivityMainBinding
 import com.demo.jetpack.databinding.ActivityMainBinding.inflate
-import com.demo.jetpack.extension.startActivity
-import com.demo.jetpack.extension.viewBindings
+import com.demo.jetpack.core.extension.startActivity
+import com.demo.jetpack.core.extension.viewBindings
 import com.demo.jetpack.hilt.HiltActivity
 import com.demo.jetpack.lifecycle.LifecycleActivity
 import com.demo.jetpack.mavericks.Mavericks01Activity
@@ -19,6 +19,7 @@ import com.demo.jetpack.motionlayout.MotionLayoutActivity07
 import com.demo.jetpack.motionlayout.MotionLayoutActivity08
 import com.demo.jetpack.motionlayout.MotionLayoutActivity09
 import com.demo.jetpack.viewmodel.DemoActivity
+import com.demo.jetpack.viewpager.ViewPager2Activity
 
 class MainActivity : AppCompatActivity() {
 
@@ -81,6 +82,10 @@ class MainActivity : AppCompatActivity() {
 
         btnMotionLayout09.setOnClickListener {
             startActivity<MotionLayoutActivity09>(this@MainActivity)
+        }
+
+        btnViewPager.setOnClickListener {
+            startActivity<ViewPager2Activity>(this@MainActivity)
         }
     }
 

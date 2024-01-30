@@ -10,8 +10,8 @@ import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.demo.jetpack.R
 import com.demo.jetpack.databinding.FragmentMavericksDemo01Binding
-import com.demo.jetpack.extension.logD
-import com.demo.jetpack.extension.viewBinding
+import com.demo.jetpack.core.extension.logD
+import com.demo.jetpack.core.extension.viewBinding
 
 //[注意]MavericksView不支持activity，原因是google官方和Airbnb都更加推荐使用fragment承载页面你的ui，而不是activity
 class Mavericks01Fragment : Fragment(R.layout.fragment_mavericks_demo_01), MavericksView {

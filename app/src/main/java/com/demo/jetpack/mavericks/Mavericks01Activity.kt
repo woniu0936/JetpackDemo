@@ -3,7 +3,7 @@ package com.demo.jetpack.mavericks
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.demo.jetpack.databinding.ActivityMavericksDemo01Binding
-import com.demo.jetpack.extension.viewBindings
+import com.demo.jetpack.core.extension.viewBindings
 
 class Mavericks01Activity : AppCompatActivity() {
 

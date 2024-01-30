@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.demo.jetpack.extension.viewBindings
+import com.demo.jetpack.core.extension.viewBindings
 import com.demo.jetpack.databinding.ActivityDemoBinding
 import com.demo.jetpack.databinding.ActivityDemoBinding.inflate
 import dagger.hilt.android.AndroidEntryPoint

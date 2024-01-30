@@ -1,4 +1,4 @@
-package com.demo.jetpack.extension
+package com.demo.jetpack.core.extension
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

@@ -1,4 +1,4 @@
-package com.demo.jetpack.extension
+package com.demo.jetpack.core.extension
 
 val Boolean?.isTrue
     get() = this == true

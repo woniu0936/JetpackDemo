@@ -2,7 +2,7 @@ package com.demo.jetpack.lifecycle
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.demo.jetpack.extension.logD
+import com.demo.jetpack.core.extension.logD
 
 class LifeComponent : DefaultLifecycleObserver {
 

@@ -1,4 +1,4 @@
-package com.demo.jetpack.extension
+package com.demo.jetpack.core.extension
 
 val Int.SECONDS
     get() = this * 1000L

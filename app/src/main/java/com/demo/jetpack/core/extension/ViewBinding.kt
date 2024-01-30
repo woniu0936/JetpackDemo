@@ -1,4 +1,4 @@
-package com.demo.jetpack.extension
+package com.demo.jetpack.core.extension
 
 import android.view.LayoutInflater
 import android.view.View

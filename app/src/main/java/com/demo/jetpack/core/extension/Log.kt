@@ -1,4 +1,4 @@
-package com.demo.jetpack.extension
+package com.demo.jetpack.core.extension
 
 import android.util.Log
 import com.demo.jetpack.BuildConfig

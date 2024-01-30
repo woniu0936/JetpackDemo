@@ -3,7 +3,7 @@ package com.demo.jetpack.motionlayout
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.demo.jetpack.databinding.ActivityMotionLayout09Binding
-import com.demo.jetpack.extension.viewBindings
+import com.demo.jetpack.core.extension.viewBindings
 
 /**
  * 将MotionLayout和CoordinatorLayout结合使用

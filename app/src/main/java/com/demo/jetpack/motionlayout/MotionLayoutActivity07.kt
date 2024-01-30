@@ -3,7 +3,7 @@ package com.demo.jetpack.motionlayout
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.demo.jetpack.databinding.ActivityMotionLayout07Binding
-import com.demo.jetpack.extension.viewBindings
+import com.demo.jetpack.core.extension.viewBindings
 
 /**
  * 关键帧控制路径变成曲线，并且添加缩放和旋转

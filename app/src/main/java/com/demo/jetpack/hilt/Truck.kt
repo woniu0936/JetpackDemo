@@ -1,6 +1,6 @@
 package com.demo.jetpack.hilt
 
-import com.demo.jetpack.extension.logD
+import com.demo.jetpack.core.extension.logD
 import javax.inject.Inject
 
 class Truck @Inject constructor(val driver: Driver) {

@@ -66,6 +66,9 @@
         <activity
             android:name=".motionlayout.MotionLayoutActivity09"
             android:exported="true" />
+        <activity
+            android:name=".viewpager.ViewPager2Activity"
+            android:exported="true" />
     </application>
 
 </manifest>
