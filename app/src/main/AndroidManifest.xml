@@ -33,7 +33,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".viewmodel.DemoActivity"
+            android:name=".paging.PagingActivity"
             android:exported="true" />
 
         <activity

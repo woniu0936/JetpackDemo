@@ -1,4 +1,4 @@
-package com.demo.jetpack.viewmodel
+package com.demo.jetpack.paging
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.demo.jetpack.R
 import com.demo.jetpack.core.data.remote.Repo
+import javax.inject.Inject
 
-class DemoAdapter : PagingDataAdapter<Repo, DemoAdapter.ViewHolder>(COMPARATOR) {
+class PagingAdapter @Inject constructor() : PagingDataAdapter<Repo, PagingAdapter.ViewHolder>(COMPARATOR) {
 
     companion object {
         private val COMPARATOR = object : DiffUtil.ItemCallback<Repo>() {

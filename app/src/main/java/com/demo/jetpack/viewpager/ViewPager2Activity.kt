@@ -10,10 +10,14 @@ import com.demo.jetpack.common.BaseAdapter
 import com.demo.jetpack.core.extension.viewBindings
 import com.demo.jetpack.databinding.ActivityViewPager2Binding
 import com.demo.jetpack.databinding.ItemViewPager2Binding
+import javax.inject.Inject
 
 class ViewPager2Activity : AppCompatActivity() {
 
     private val mBinding: ActivityViewPager2Binding by viewBindings(ActivityViewPager2Binding::inflate)
+
+    @Inject
+    lateinit var mGalleryTransformer: GalleryTransformer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +28,7 @@ class ViewPager2Activity : AppCompatActivity() {
         mBinding.viewPager01.apply {
             adapter = mAdapter
             offscreenPageLimit = 3
-            setPageTransformer(GalleryTransformer())
+            setPageTransformer(mGalleryTransformer)
             (getChildAt(0) as? RecyclerView)?.apply {
                 setPadding(200, 0, 200, 0)
                 // 画廊效果的关键是这行代码

@@ -3,11 +3,14 @@ package com.demo.jetpack.lifecycle
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.demo.jetpack.core.extension.logD
+import dagger.hilt.android.scopes.ActivityScoped
+import javax.inject.Inject
 
-class LifeComponent : DefaultLifecycleObserver {
+@ActivityScoped
+class ActivityLifeComponent @Inject constructor() : DefaultLifecycleObserver {
 
     companion object {
-        private const val TAG = "LifeComponent"
+        private const val TAG = "ActivityLifeComponent"
     }
 
     override fun onCreate(owner: LifecycleOwner) {

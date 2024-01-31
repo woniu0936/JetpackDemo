@@ -19,7 +19,7 @@ import com.demo.jetpack.motionlayout.MotionLayoutActivity07
 import com.demo.jetpack.motionlayout.MotionLayoutActivity08
 import com.demo.jetpack.motionlayout.MotionLayoutActivity09
 import com.demo.jetpack.navigation.NavigationActivity
-import com.demo.jetpack.viewmodel.DemoActivity
+import com.demo.jetpack.paging.PagingActivity
 import com.demo.jetpack.viewpager.ViewPager2Activity
 
 class MainActivity : AppCompatActivity() {
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnPaging.setOnClickListener {
-            startActivity<DemoActivity>(this@MainActivity)
+            startActivity<PagingActivity>(this@MainActivity)
         }
 
         btnMavericks.setOnClickListener {

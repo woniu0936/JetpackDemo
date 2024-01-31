@@ -1,4 +1,4 @@
-package com.demo.jetpack.viewmodel
+package com.demo.jetpack.paging
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.demo.jetpack.R
 
 //我们使用Kotlin的高阶函数来给重试按钮注册点击事件，这样当点击重试按钮时，构造函数中传入的函数类型参数就会被回调，我们待会将在那里加入重试逻辑。
-class FooterAdapter(val retry: () -> Unit) : LoadStateAdapter<FooterAdapter.ViewHolder>() {
+class PagingFooterAdapter(val retry: () -> Unit) : LoadStateAdapter<PagingFooterAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.footer_item, parent, false)

@@ -1,4 +1,4 @@
-package com.demo.jetpack.viewmodel
+package com.demo.jetpack.paging
 
 import android.os.Bundle
 import android.view.View
@@ -13,13 +13,16 @@ import com.demo.jetpack.databinding.ActivityDemoBinding
 import com.demo.jetpack.databinding.ActivityDemoBinding.inflate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class DemoActivity : AppCompatActivity() {
+class PagingActivity : AppCompatActivity() {
 
     private val mBinding: ActivityDemoBinding by viewBindings(::inflate)
-    private val mViewModel: DemoViewModel by viewModels()
-    private val mAdapter: DemoAdapter by lazy { DemoAdapter() }
+    private val mViewModel: PagingViewModel by viewModels()
+
+    @Inject
+    lateinit var mAdapter: PagingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +32,8 @@ class DemoActivity : AppCompatActivity() {
     }
 
     private fun initView() = with(mBinding) {
-        recyclerView.layoutManager = LinearLayoutManager(this@DemoActivity)
-        recyclerView.adapter = mAdapter.withLoadStateFooter(FooterAdapter { mAdapter.retry() })
+        recyclerView.layoutManager = LinearLayoutManager(this@PagingActivity)
+        recyclerView.adapter = mAdapter.withLoadStateFooter(PagingFooterAdapter { mAdapter.retry() })
 
         mAdapter.addLoadStateListener {
             when (it.refresh) {
@@ -47,7 +50,7 @@ class DemoActivity : AppCompatActivity() {
                 is LoadState.Error -> {
                     val state = it.refresh as LoadState.Error
                     progressBar.visibility = View.INVISIBLE
-                    Toast.makeText(this@DemoActivity, "Load Error: ${state.error.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@PagingActivity, "Load Error: ${state.error.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }

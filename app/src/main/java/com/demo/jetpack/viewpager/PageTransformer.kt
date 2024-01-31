@@ -3,6 +3,8 @@ package com.demo.jetpack.viewpager
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.viewpager2.widget.ViewPager2
+import dagger.hilt.android.scopes.ActivityScoped
+import javax.inject.Inject
 import kotlin.math.abs
 
 /**
@@ -19,7 +21,7 @@ import kotlin.math.abs
  *                  └───────────────┘
  * ------------------------------------------------------------------------------------
  */
-class GalleryTransformer : ViewPager2.PageTransformer {
+class GalleryTransformer @Inject constructor() : ViewPager2.PageTransformer {
 
     override fun transformPage(page: View, position: Float) {
         val absPos = abs(position)
@@ -43,7 +45,7 @@ class GalleryTransformer : ViewPager2.PageTransformer {
 
 }
 
-class SliderTransformer(private val offscreenPageLimit: Int) : ViewPager2.PageTransformer {
+class SliderTransformer @Inject constructor(private val offscreenPageLimit: Int) : ViewPager2.PageTransformer {
 
     override fun transformPage(page: View, position: Float) {
         page.apply {
