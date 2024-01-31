@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_ac5e74">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fragment01"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/tv_nav_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="跳转fragment02(bundle传参)"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_content" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/tv_nav_fragment_03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="跳转fragment03(safe args传参)"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_nav_fragment" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/tv_nav_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="跳转Activity"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_nav_fragment_03" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

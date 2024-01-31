@@ -160,4 +160,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_motion_layout_09" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:text="Navigation"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_view_pager" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

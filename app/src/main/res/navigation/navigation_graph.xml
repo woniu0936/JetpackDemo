@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/fragment01">
+
+    <fragment
+        android:id="@+id/fragment01"
+        android:name="com.demo.jetpack.navigation.fragment.Fragment01"
+        android:label="fragment_01"
+        tools:layout="@layout/fragment_navigation_01">
+
+        <action
+            android:id="@+id/to_fragment03"
+            app:destination="@id/fragment03" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment02"
+        android:name="com.demo.jetpack.navigation.fragment.Fragment02"
+        android:label="fragment_02"
+        tools:layout="@layout/fragment_navigation_02" />
+
+    <fragment
+        android:id="@+id/fragment03"
+        android:name="com.demo.jetpack.navigation.fragment.Fragment03"
+        android:label="fragment_03"
+        tools:layout="@layout/fragment_navigation_03">
+
+        <argument
+            android:name="param"
+            android:defaultValue="hello world"
+            app:argType="string" />
+
+    </fragment>
+
+    <activity
+        android:id="@+id/new_activity"
+        android:name="com.demo.jetpack.navigation.NewActivity"
+        android:label="new_activity"
+        tools:layout="@layout/activity_new" />
+
+</navigation>
