@@ -1,4 +1,4 @@
-package com.demo.jetpack.navigation
+package com.demo.jetpack.navigation.basic
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

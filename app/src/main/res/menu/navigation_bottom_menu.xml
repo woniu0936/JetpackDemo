@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_navigation_bottom_home"
+        android:title="首页"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/nav_square"
+        android:icon="@drawable/ic_navigation_bottom_square"
+        android:title="广场"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/nav_pub"
+        android:icon="@drawable/ic_navigation_bottom_pub"
+        android:title="公众号"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/nav_ask"
+        android:icon="@drawable/ic_navigation_bottom_ask"
+        android:title="问答"
+        app:showAsAction="ifRoom" />
+
+
+</menu>

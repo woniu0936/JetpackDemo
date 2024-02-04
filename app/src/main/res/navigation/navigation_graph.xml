@@ -38,8 +38,14 @@
 
     <activity
         android:id="@+id/new_activity"
-        android:name="com.demo.jetpack.navigation.NewActivity"
+        android:name="com.demo.jetpack.navigation.basic.NewActivity"
         android:label="new_activity"
         tools:layout="@layout/activity_new" />
+
+    <activity
+        android:id="@+id/home_activity"
+        android:name="com.demo.jetpack.navigation.home.HomeActivity"
+        android:label="home_activity"
+        tools:layout="@layout/activity_home" />
 
 </navigation>
