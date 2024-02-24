@@ -70,10 +70,13 @@
             android:name=".viewpager.ViewPager2Activity"
             android:exported="true" />
         <activity
-            android:name=".navigation.NavigationActivity"
+            android:name=".navigation.basic.NavigationActivity"
             android:exported="true" />
         <activity
-            android:name=".navigation.NewActivity"
+            android:name=".navigation.basic.NewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".navigation.home.HomeActivity"
             android:exported="true" />
     </application>
 

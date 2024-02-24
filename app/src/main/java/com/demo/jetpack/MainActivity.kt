@@ -18,7 +18,7 @@ import com.demo.jetpack.motionlayout.MotionLayoutActivity06
 import com.demo.jetpack.motionlayout.MotionLayoutActivity07
 import com.demo.jetpack.motionlayout.MotionLayoutActivity08
 import com.demo.jetpack.motionlayout.MotionLayoutActivity09
-import com.demo.jetpack.navigation.NavigationActivity
+import com.demo.jetpack.navigation.basic.NavigationActivity
 import com.demo.jetpack.paging.PagingActivity
 import com.demo.jetpack.viewpager.ViewPager2Activity
 

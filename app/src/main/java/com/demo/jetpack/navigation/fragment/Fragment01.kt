@@ -29,6 +29,10 @@ class Fragment01 : Fragment(R.layout.fragment_navigation_01) {
         mBinding.tvNavActivity.setOnClickListener {
             findNavController().navigate(R.id.new_activity)
         }
+
+        mBinding.tvNavHomeActivity.setOnClickListener {
+            findNavController().navigate(R.id.home_activity)
+        }
     }
 
 }

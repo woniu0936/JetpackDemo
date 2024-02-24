@@ -49,4 +49,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_nav_fragment_03" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/tv_nav_home_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="跳转HomeActivity(nav和bottomView的结合使用)"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_nav_activity" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
