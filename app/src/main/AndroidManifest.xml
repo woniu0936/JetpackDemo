@@ -78,6 +78,9 @@
         <activity
             android:name=".navigation.home.HomeActivity"
             android:exported="true" />
+        <activity
+            android:name=".scroll.ScrollActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

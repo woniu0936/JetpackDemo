@@ -13,6 +13,11 @@ object GsonKt {
         return gson.fromJson(json, type)
     }
 
+     fun <T> fromJson2(json: String): T {
+        val type = object : TypeToken<T>() {}.type
+        return gson.fromJson(json, type)
+    }
+
     inline fun <reified T> fromJson(jsonElement: JsonElement): T {
         val type = object : TypeToken<T>() {}.type
         return gson.fromJson(jsonElement, type)
