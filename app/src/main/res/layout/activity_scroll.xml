@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.demo.jetpack.scroll.MyNestScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nest"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_1"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="#9900ff00"
+            android:orientation="horizontal" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:text="XXXXXXXXXXXXXXX"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_2"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:background="#990000ff"
+            android:orientation="horizontal" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</com.demo.jetpack.scroll.MyNestScrollView>

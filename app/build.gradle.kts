@@ -60,6 +60,8 @@ dependencies {
 
     implementation(platform(libs.compose.bom))
     implementation(libs.casa.ui)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
@@ -84,6 +86,7 @@ dependencies {
     implementation(libs.square.okhttp.logging)
     implementation(libs.square.retrofit2)
     implementation(libs.square.retrofit2.converter.gson)
+    implementation("com.tencent:mmkv:1.3.4")
 
     // Testing
     kspAndroidTest(libs.hilt.compiler)

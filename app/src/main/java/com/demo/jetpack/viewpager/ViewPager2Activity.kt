@@ -10,8 +10,10 @@ import com.demo.jetpack.common.BaseAdapter
 import com.demo.jetpack.core.extension.viewBindings
 import com.demo.jetpack.databinding.ActivityViewPager2Binding
 import com.demo.jetpack.databinding.ItemViewPager2Binding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ViewPager2Activity : AppCompatActivity() {
 
     private val mBinding: ActivityViewPager2Binding by viewBindings(ActivityViewPager2Binding::inflate)
