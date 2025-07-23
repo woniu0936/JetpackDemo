@@ -21,12 +21,14 @@ class ViewPager2Activity : AppCompatActivity() {
     @Inject
     lateinit var mGalleryTransformer: GalleryTransformer
 
+    lateinit var mAdapter: ViewPagerAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
-        val mAdapter = ViewPagerAdapter().apply {
-            submitList(defaultList())
-        }
+
+        mAdapter = ViewPagerAdapter()
+
         mBinding.viewPager01.apply {
             adapter = mAdapter
             offscreenPageLimit = 3
@@ -47,6 +49,18 @@ class ViewPager2Activity : AppCompatActivity() {
                 clipToPadding = false
             }
         }
+
+        mBinding.viewPager03.apply {
+            adapter = mAdapter
+            offscreenPageLimit = 3
+            setPageTransformer(CarouselPageTransformer(24))
+            (getChildAt(0) as? RecyclerView)?.apply {
+                setPadding(100, 0, 640, 0)
+                // 让子view超过ViewPager2(准确的说是ViewPager2中的RecyclerView)的边界的关键是这行代码
+                clipToPadding = false
+            }
+        }
+        mAdapter.submitList(defaultList())
     }
 
     private fun defaultList(): List<String> {
