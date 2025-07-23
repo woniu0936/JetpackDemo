@@ -16,4 +16,10 @@
         android:layout_height="240dp"
         android:layout_marginTop="16dp" />
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager_03"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:layout_marginTop="16dp" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>
