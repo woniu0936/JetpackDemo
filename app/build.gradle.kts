@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.demo.jetpack"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.demo.jetpack"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -86,7 +86,7 @@ dependencies {
     implementation(libs.square.okhttp.logging)
     implementation(libs.square.retrofit2)
     implementation(libs.square.retrofit2.converter.gson)
-    implementation("com.tencent:mmkv:1.3.4")
+    implementation("com.tencent:mmkv:1.3.14")
 
     // Testing
     kspAndroidTest(libs.hilt.compiler)
@@ -101,4 +101,5 @@ dependencies {
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.hilt.testing)
     androidTestImplementation(libs.junit4)
+    testImplementation(libs.junit4)
 }
