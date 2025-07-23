@@ -21,13 +21,12 @@ class ViewPager2Activity : AppCompatActivity() {
     @Inject
     lateinit var mGalleryTransformer: GalleryTransformer
 
+    @Inject
     lateinit var mAdapter: ViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
-
-        mAdapter = ViewPagerAdapter()
 
         mBinding.viewPager01.apply {
             adapter = mAdapter
