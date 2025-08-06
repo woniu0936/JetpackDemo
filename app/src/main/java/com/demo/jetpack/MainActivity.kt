@@ -2,7 +2,7 @@ package com.demo.jetpack
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.NestedScrollView
+import com.demo.jetpack.common.dataflow.dataFlowCacheFirst
 import com.demo.jetpack.core.extension.logD
 import com.demo.jetpack.core.extension.startActivity
 import com.demo.jetpack.core.extension.viewBindings
@@ -24,6 +24,10 @@ import com.demo.jetpack.navigation.basic.NavigationActivity
 import com.demo.jetpack.paging.PagingActivity
 import com.demo.jetpack.scroll.ScrollActivity
 import com.demo.jetpack.viewpager.ViewPager2Activity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -108,6 +112,21 @@ class MainActivity : AppCompatActivity() {
             logD("NMNMNMNXXXIUYIU") { "canScrollVertically(1): ${scroll.canScrollVertically(1)}, canScrollVertically(-1): ${scroll.canScrollVertically(-1)}" }
             false
         }
+
+        dataFlowCacheFirst(
+            query = {
+                getH()
+            },
+            fetch = {
+                getO()
+            },
+            saveFetchResult = {
+                logD { it.toString() }
+            },
+            shouldFetch = {
+                it != null
+            }
+        )
     }
 
     fun test() {
@@ -119,5 +138,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     data class H(val a: String = "")
+    data class O(val a: Int = 0)
+
+    fun getH() = flow {
+        delay(2000)
+        emit(H("aaaaaa"))
+    }
+
+    suspend fun getO(): O {
+        return withContext(Dispatchers.IO) {
+            delay(1000)
+            O(1)
+        }
+    }
 
 }
