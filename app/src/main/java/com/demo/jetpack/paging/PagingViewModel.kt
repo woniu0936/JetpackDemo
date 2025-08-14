@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.filter
 import androidx.paging.map
 import com.demo.jetpack.core.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,16 +18,12 @@ import javax.inject.Inject
 class PagingViewModel @Inject constructor(private val mRepository: Repository) : ViewModel() {
 
     private val _selectedRepoIds = MutableStateFlow<Set<Int>>(emptySet())
-    private val _deletedRepoIds = MutableStateFlow<Set<Int>>(emptySet())
 
     val pagingDataFlow: Flow<PagingData<RepoItem>> = combine(
         mRepository.getPagingData().cachedIn(viewModelScope),
-        _deletedRepoIds,
         _selectedRepoIds
-    ) { pagingData, deletedIds, selectedIds ->
-        pagingData
-            .filter { repo -> repo.id !in deletedIds }
-            .map { repo -> RepoItem(repo, isSelected = repo.id in selectedIds) }
+    ) { pagingData, selectedIds ->
+        pagingData.map { repo -> RepoItem(repo, isSelected = repo.id in selectedIds) }
     }
 
     fun toggleSelection(repoId: Int) {
@@ -44,8 +39,10 @@ class PagingViewModel @Inject constructor(private val mRepository: Repository) :
     fun deleteSelectedItems() {
         viewModelScope.launch {
             val selectedIds = _selectedRepoIds.value
-            _deletedRepoIds.update { it + selectedIds }
-            _selectedRepoIds.value = emptySet()
+            if (selectedIds.isNotEmpty()) {
+                mRepository.deleteRepos(selectedIds)
+                _selectedRepoIds.value = emptySet()
+            }
         }
     }
 }

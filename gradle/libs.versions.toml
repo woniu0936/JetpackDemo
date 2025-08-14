@@ -47,6 +47,7 @@ material = "1.11.0"
 constraintlayout = "2.1.4"
 okhttp = "4.11.0"
 retrofit = "2.9.0"
+room = "2.6.1"
 
 [libraries]
 
@@ -173,6 +174,11 @@ mdc = "com.google.android.material:material:1.10.0"
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 [plugins]
 affectedmoduledetector = { id = "com.dropbox.affectedmoduledetector", version = "0.2.0" }
