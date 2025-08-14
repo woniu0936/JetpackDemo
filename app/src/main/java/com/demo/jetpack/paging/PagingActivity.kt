@@ -12,6 +12,7 @@ import com.demo.jetpack.core.extension.viewBindings
 import com.demo.jetpack.databinding.ActivityDemoBinding
 import com.demo.jetpack.databinding.ActivityDemoBinding.inflate
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,6 +35,14 @@ class PagingActivity : AppCompatActivity() {
     private fun initView() = with(mBinding) {
         recyclerView.layoutManager = LinearLayoutManager(this@PagingActivity)
         recyclerView.adapter = mAdapter.withLoadStateFooter(PagingFooterAdapter { mAdapter.retry() })
+
+        mAdapter.onItemClick = { repoItem ->
+            mViewModel.toggleSelection(repoItem.repo.id)
+        }
+
+        deleteButton.setOnClickListener {
+            mViewModel.deleteSelectedItems()
+        }
 
         mAdapter.addLoadStateListener {
             when (it.refresh) {
@@ -58,7 +67,7 @@ class PagingActivity : AppCompatActivity() {
 
     private fun fetchData() {
         lifecycleScope.launch {
-            mViewModel.getPagingData().collect { pagingData ->
+            mViewModel.pagingDataFlow.collectLatest { pagingData ->
                 mAdapter.submitData(pagingData)
             }
         }
