@@ -20,4 +20,7 @@ interface RepoDao {
 
     @Query("DELETE FROM repos")
     suspend fun clearRepos()
+
+    @Query("SELECT COUNT(id) FROM repos")
+    suspend fun getRepoCount(): Int
 }

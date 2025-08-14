@@ -8,6 +8,7 @@ import com.demo.jetpack.core.data.GithubRemoteMediator
 import com.demo.jetpack.core.data.local.RepoDatabase
 import com.demo.jetpack.core.data.remote.GitHubService
 import com.demo.jetpack.core.data.remote.Repo
+import com.demo.jetpack.core.util.NetworkMonitor
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,7 +16,8 @@ import javax.inject.Singleton
 @Singleton
 class Repository @Inject constructor(
     private val gitHubService: GitHubService,
-    private val database: RepoDatabase
+    private val database: RepoDatabase,
+    private val networkMonitor: NetworkMonitor
 ) {
 
     companion object {
@@ -32,7 +34,8 @@ class Repository @Inject constructor(
             ),
             remoteMediator = GithubRemoteMediator(
                 gitHubService,
-                database
+                database,
+                networkMonitor
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow

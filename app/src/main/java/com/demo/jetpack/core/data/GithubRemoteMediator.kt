@@ -9,6 +9,7 @@ import com.demo.jetpack.core.data.local.RepoDatabase
 import com.demo.jetpack.core.data.local.entity.RemoteKeys
 import com.demo.jetpack.core.data.remote.GitHubService
 import com.demo.jetpack.core.data.remote.Repo
+import com.demo.jetpack.core.util.NetworkMonitor
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -17,8 +18,17 @@ private const val GITHUB_STARTING_PAGE_INDEX = 1
 @OptIn(ExperimentalPagingApi::class)
 class GithubRemoteMediator(
     private val service: GitHubService,
-    private val database: RepoDatabase
+    private val database: RepoDatabase,
+    private val networkMonitor: NetworkMonitor
 ) : RemoteMediator<Int, Repo>() {
+
+    override suspend fun initialize(): InitializeAction {
+        return if (networkMonitor.isConnected()) {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        } else {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        }
+    }
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Repo>): MediatorResult {
         val page = when (loadType) {
@@ -57,7 +67,7 @@ class GithubRemoteMediator(
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {
-            return MediatorResult.Error(exception)
+            return MediatorResult.Success(endOfPaginationReached = true)
         } catch (exception: HttpException) {
             return MediatorResult.Error(exception)
         }
