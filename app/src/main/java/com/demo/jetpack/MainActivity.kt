@@ -2,7 +2,6 @@ package com.demo.jetpack
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.demo.jetpack.common.dataflow.dataFlowCacheFirst
 import com.demo.jetpack.core.extension.logD
 import com.demo.jetpack.core.extension.startActivity
 import com.demo.jetpack.core.extension.viewBindings
@@ -113,20 +112,6 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
-        dataFlowCacheFirst(
-            query = {
-                getH()
-            },
-            fetch = {
-                getO()
-            },
-            saveFetchResult = {
-                logD { it.toString() }
-            },
-            shouldFetch = {
-                it != null
-            }
-        )
     }
 
     fun test() {
