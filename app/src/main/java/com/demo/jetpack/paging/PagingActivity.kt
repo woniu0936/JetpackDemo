@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,24 +45,19 @@ class PagingActivity : AppCompatActivity() {
             mViewModel.deleteSelectedItems()
         }
 
-        mAdapter.addLoadStateListener {
-            when (it.refresh) {
-                is LoadState.NotLoading -> {
-                    progressBar.visibility = View.INVISIBLE
-                    recyclerView.visibility = View.VISIBLE
-                }
+        mAdapter.addLoadStateListener { loadState ->
+            val refreshState = loadState.refresh
+            mBinding.recyclerView.isVisible = refreshState is LoadState.NotLoading
+            mBinding.progressBar.isVisible = refreshState is LoadState.Loading
+            mBinding.errorLayout.isVisible = refreshState is LoadState.Error
 
-                is LoadState.Loading -> {
-                    progressBar.visibility = View.VISIBLE
-                    recyclerView.visibility = View.INVISIBLE
-                }
-
-                is LoadState.Error -> {
-                    val state = it.refresh as LoadState.Error
-                    progressBar.visibility = View.INVISIBLE
-                    Toast.makeText(this@PagingActivity, "Load Error: ${state.error.message}", Toast.LENGTH_SHORT).show()
-                }
+            if (refreshState is LoadState.Error) {
+                mBinding.errorMsg.text = refreshState.error.localizedMessage
             }
+        }
+
+        mBinding.retryButtonMain.setOnClickListener {
+            mAdapter.retry()
         }
     }
 
