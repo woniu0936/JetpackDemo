@@ -48,8 +48,11 @@ constraintlayout = "2.1.4"
 okhttp = "4.11.0"
 retrofit = "2.9.0"
 room = "2.6.1"
+protobuf = "0.9.4"
 
 [libraries]
+protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version = "3.25.2" }
+protobuf-kotlin = { module = "com.google.protobuf:protobuf-kotlin", version = "3.25.2" }
 
 # Core dependencies
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -160,6 +163,7 @@ androidx-media = "androidx.media:media:1.6.0"
 androidx-constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 androidx-coordinatorlayout = "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
+androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "androidx-datastore" }
 androidx-draganddrop = "androidx.draganddrop:draganddrop:1.0.0"
 androidx-dynamicanimation = "androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03"
 androidx-media3-common = { module = "androidx.media3:media3-common", version.ref = "media3" }
@@ -193,3 +197,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidx-navigation" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobuf" }

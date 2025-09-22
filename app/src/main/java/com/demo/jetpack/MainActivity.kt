@@ -7,6 +7,7 @@ import com.demo.jetpack.core.extension.startActivity
 import com.demo.jetpack.core.extension.viewBindings
 import com.demo.jetpack.databinding.ActivityMainBinding
 import com.demo.jetpack.databinding.ActivityMainBinding.inflate
+import com.demo.jetpack.datastore.DataStoreActivity
 import com.demo.jetpack.hilt.HiltActivity
 import com.demo.jetpack.lifecycle.LifecycleActivity
 import com.demo.jetpack.mavericks.Mavericks01Activity
@@ -101,6 +102,10 @@ class MainActivity : AppCompatActivity() {
 
         btnScroll.setOnClickListener {
             startActivity<ScrollActivity>(this@MainActivity)
+        }
+
+        btnDatastore.setOnClickListener {
+            startActivity<DataStoreActivity>(this@MainActivity)
         }
 
         scroll.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->

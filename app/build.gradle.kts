@@ -93,6 +93,9 @@ dependencies {
     implementation(libs.square.retrofit2.converter.gson)
     implementation("com.tencent:mmkv:1.3.14")
 
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.core)
+
     // Testing
     kspAndroidTest(libs.hilt.compiler)
     androidTestImplementation(platform(libs.compose.bom))

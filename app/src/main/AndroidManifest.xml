@@ -82,6 +82,9 @@
         <activity
             android:name=".scroll.ScrollActivity"
             android:exported="true" />
+        <activity
+            android:name=".datastore.DataStoreActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".datastore.DataStoreActivity">
+
+        <EditText
+            android:id="@+id/et_string"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter a string" />
+
+        <EditText
+            android:id="@+id/et_int"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter an int" />
+
+        <EditText
+            android:id="@+id/et_long"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter a long" />
+
+        <EditText
+            android:id="@+id/et_float"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter a float" />
+
+        <EditText
+            android:id="@+id/et_double"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter a double" />
+
+        <CheckBox
+            android:id="@+id/cb_boolean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Boolean" />
+
+        <EditText
+            android:id="@+id/et_string_set"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter a string set (comma separated)" />
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save All to DataStore" />
+
+        <TextView
+            android:id="@+id/tv_saved_values"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Values from DataStore will be shown here"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+</ScrollView>
