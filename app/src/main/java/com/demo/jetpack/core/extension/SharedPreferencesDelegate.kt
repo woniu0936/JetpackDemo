@@ -16,7 +16,7 @@ class SharedPreferencesDelegate<T>(
         context.getSharedPreferences(spName, Context.MODE_PRIVATE)
     }
 
-    @Suppress("IMPLICIT_CAST_TO_ANY")
+    @Suppress("UNCHECKED_CAST")
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         val finalKey = key ?: property.name
         return when (defaultValue) {

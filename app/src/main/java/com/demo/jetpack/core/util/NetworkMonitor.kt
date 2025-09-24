@@ -15,7 +15,7 @@ interface NetworkMonitor {
 
 @Singleton
 class NetworkMonitorImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context
 ) : NetworkMonitor {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     override fun isConnected(): Boolean {

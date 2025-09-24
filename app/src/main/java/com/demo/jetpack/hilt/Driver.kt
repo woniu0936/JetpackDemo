@@ -4,5 +4,5 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class Driver @Inject constructor(@ApplicationContext val context: Context) {
+class Driver @Inject constructor(@param:ApplicationContext val context: Context) {
 }
