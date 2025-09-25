@@ -59,6 +59,37 @@
             android:layout_height="wrap_content"
             android:text="Save All to DataStore" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:color/darker_gray" />
+
+        <EditText
+            android:id="@+id/et_user_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter User ID" />
+
+        <EditText
+            android:id="@+id/et_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter User Name" />
+
+        <EditText
+            android:id="@+id/et_user_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter User Age" />
+
+        <Button
+            android:id="@+id/btn_save_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save User to DataStore" />
+
         <TextView
             android:id="@+id/tv_saved_values"
             android:layout_width="wrap_content"
