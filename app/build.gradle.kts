@@ -105,4 +105,7 @@ dependencies {
     androidTestImplementation(libs.hilt.testing)
     androidTestImplementation(libs.junit4)
     testImplementation(libs.junit4)
+    testImplementation(libs.truth)
+    testImplementation(libs.kotlin.coroutines.test)
+    testImplementation(libs.turbine)
 }

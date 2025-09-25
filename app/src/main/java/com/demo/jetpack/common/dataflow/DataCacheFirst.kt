@@ -167,7 +167,7 @@ internal inline fun <T : Any> dataCacheFirstInternal(
  * @return 一个 `Flow<T>`，它会发射可用的数据，并保持活动状态以监听未来的更新。
  */
 @PublishedApi
-internal inline fun <T : Any> dataCacheFirstInternal(
+internal inline fun <T : Any> dataCacheFirstFlowInternal(
     crossinline isOnline: () -> Boolean,
     crossinline local: () -> Flow<T?>,
     crossinline remote: suspend () -> T?,
@@ -291,10 +291,10 @@ inline fun <T : Any> dataCacheFirst(
     crossinline shouldEmitRemote: (localData: T?, remoteData: T) -> Boolean = { _, _ -> true }
 ): Flow<T> = dataCacheFirstInternal(isOnline, local, remote, cacheRemote, shouldFetchRemote, shouldEmitRemote)
 
-internal inline fun <T : Any> dataCacheFirst(
+internal inline fun <T : Any> dataCacheFirstFlow(
     crossinline isOnline: () -> Boolean,
     crossinline local: () -> Flow<T?>,
     crossinline remote: suspend () -> T?,
     crossinline cacheRemote: suspend (T) -> Unit = {},
     crossinline shouldFetchRemote: (localData: T?) -> Boolean = { true }
-): Flow<T> = dataCacheFirstInternal(isOnline, local, remote, cacheRemote, shouldFetchRemote)
+): Flow<T> = dataCacheFirstFlowInternal(isOnline, local, remote, cacheRemote, shouldFetchRemote)
