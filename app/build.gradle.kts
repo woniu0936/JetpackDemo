@@ -94,6 +94,7 @@ dependencies {
     implementation(libs.androidx.datastore.core)
     implementation(libs.kotlin.serialization.json)
     implementation(libs.protobuf.kotlin)
+    implementation(libs.gson)
 
     // Testing
     kspAndroidTest(libs.hilt.compiler)

@@ -14,31 +14,24 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
 private const val PREFERENCES_FILE_NAME = "user_settings"
-private const val USER_DATA_STORE_FILE_NAME = "user.pb"
 
-class DataStoreManager(private val context: Context) {
+@Singleton
+class DataStoreManager @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val userManagerDataStore: DataStore<User>,
+    private val taskManagerDataStore: DataStore<Task>,
+    private val noteManagerDataStore: DataStore<Note>
+) {
 
     private val preferencesDataStore: DataStore<Preferences> by lazy {
-        context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE)
         context.dataStore
-    }
-
-    private val userManagerDataStore: DataStore<User> by lazy {
-        DataStoreFactory.create(
-            serializer = UserSerializer,
-            produceFile = { context.filesDir.resolve(USER_DATA_STORE_FILE_NAME) }
-        )
-    }
-
-    private val taskManagerDataStore: DataStore<Task> by lazy {
-        DataStoreFactory.create(
-            serializer = TaskSerializer,
-            produceFile = { context.filesDir.resolve("task.pb") }
-        )
     }
 
     private val stringKey = stringPreferencesKey("string_key")
@@ -100,9 +93,26 @@ class DataStoreManager(private val context: Context) {
                 .setId(task.id)
                 .setTitle(task.title)
                 .setContent(task.content)
-                .setCreateTime(if (currentTask.getCreateTime() == 0L) currentTime else currentTask.getCreateTime())
+                .setCreateTime(if (currentTask.createTime == 0L) currentTime else currentTask.createTime)
                 .setModifyTime(currentTime)
                 .build()
+        }
+    }
+
+    fun readNote(): Flow<Note> {
+        return noteManagerDataStore.data
+    }
+
+    suspend fun updateNote(note: Note) {
+        noteManagerDataStore.updateData { currentNote ->
+            val currentTime = System.currentTimeMillis()
+            currentNote.copy(
+                id = note.id,
+                title = note.title,
+                content = note.content,
+                createTime = if (currentNote.createTime == 0L) currentTime else currentNote.createTime,
+                modifyTime = currentTime
+            )
         }
     }
 }

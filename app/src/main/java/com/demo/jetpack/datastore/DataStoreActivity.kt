@@ -7,17 +7,19 @@ import com.demo.jetpack.databinding.ActivityDatastoreBinding
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@AndroidEntryPoint
 class DataStoreActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDatastoreBinding
-    private lateinit var dataStoreManager: DataStoreManager
+    @Inject lateinit var dataStoreManager: DataStoreManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDatastoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        dataStoreManager = DataStoreManager(this)
 
         binding.btnSave.setOnClickListener {
             lifecycleScope.launch {
@@ -53,6 +55,17 @@ class DataStoreActivity : AppCompatActivity() {
             }
         }
 
+        binding.btnSaveNote.setOnClickListener {
+            lifecycleScope.launch {
+                val note = Note(
+                    id = binding.etNoteId.text.toString().toIntOrNull() ?: 0,
+                    title = binding.etNoteTitle.text.toString(),
+                    content = binding.etNoteContent.text.toString()
+                )
+                dataStoreManager.updateNote(note)
+            }
+        }
+
         lifecycleScope.launch {
             combine(
                 dataStoreManager.stringFlow,
@@ -63,7 +76,8 @@ class DataStoreActivity : AppCompatActivity() {
                 dataStoreManager.booleanFlow,
                 dataStoreManager.stringSetFlow,
                 dataStoreManager.readUser(),
-                dataStoreManager.readTask()
+                dataStoreManager.readTask(),
+                dataStoreManager.readNote()
             ) { values ->
                 val string = values[0]
                 val int = values[1]
@@ -74,6 +88,7 @@ class DataStoreActivity : AppCompatActivity() {
                 val stringSet = values[6]
                 val user = values[7] as User
                 val task = values[8] as Task
+                val note = values[9] as Note
 
                 """
                 String: $string
@@ -89,6 +104,11 @@ class DataStoreActivity : AppCompatActivity() {
                 User Create Time: ${user.createTime}
                 User Modify Time: ${user.modifyTime}
                 Task: ${task.toFormattedString()}
+                Note ID: ${note.id}
+                Note Title: ${note.title}
+                Note Content: ${note.content}
+                Note Create Time: ${note.createTime}
+                Note Modify Time: ${note.modifyTime}
                 """
             }.collect { allValues ->
                 binding.tvSavedValues.text = allValues

@@ -1,15 +1,26 @@
 package com.demo.jetpack.hilt
 
 import javax.inject.Qualifier
+import javax.inject.Scope
 
 @Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class BindGasEngine {
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Dispatcher(val dispatcher: AppDispatchers)
 
+enum class AppDispatchers {
+    IO,
+    Default,
+    Main
 }
 
+@Retention(AnnotationRetention.RUNTIME)
 @Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class BindElectricEngine {
+annotation class ApplicationScope
 
-}
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class BindGasEngine
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class BindElectricEngine
