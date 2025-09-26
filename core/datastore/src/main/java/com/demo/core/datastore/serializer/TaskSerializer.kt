@@ -1,7 +1,8 @@
-package com.demo.jetpack.datastore
+package com.demo.core.datastore.serializer
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
+import com.demo.core.datastore.Task
 import java.io.InputStream
 import java.io.OutputStream
 

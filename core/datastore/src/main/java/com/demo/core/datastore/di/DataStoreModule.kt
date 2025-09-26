@@ -1,18 +1,18 @@
-package com.demo.jetpack.core.data.module
+package com.demo.core.datastore.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
-import com.demo.jetpack.datastore.Note
-import com.demo.jetpack.datastore.NoteSerializer
-import com.demo.jetpack.datastore.Task
-import com.demo.jetpack.datastore.TaskSerializer
-import com.demo.jetpack.datastore.User
-import com.demo.jetpack.datastore.UserSerializer
-import com.demo.jetpack.hilt.AppDispatchers
-import com.demo.jetpack.hilt.ApplicationScope
-import com.demo.jetpack.hilt.Dispatcher
+import com.demo.core.common.AppDispatchers
+import com.demo.core.common.ApplicationScope
+import com.demo.core.common.Dispatcher
+import com.demo.core.datastore.Task
+import com.demo.core.datastore.model.Note
+import com.demo.core.datastore.model.User
+import com.demo.core.datastore.serializer.NoteSerializer
+import com.demo.core.datastore.serializer.TaskSerializer
+import com.demo.core.datastore.serializer.UserSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +25,6 @@ import javax.inject.Singleton
 private const val USER_DATA_STORE_FILE_NAME = "user.pb"
 private const val TASK_DATA_STORE_FILE_NAME = "task.pb"
 private const val NOTE_DATA_STORE_FILE_NAME = "note.json"
-private const val PREFERENCES_DATA_STORE_FILE_NAME = "user_settings"
 
 @InstallIn(SingletonComponent::class)
 @Module

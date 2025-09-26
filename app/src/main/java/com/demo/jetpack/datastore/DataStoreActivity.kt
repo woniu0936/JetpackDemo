@@ -3,6 +3,9 @@ package com.demo.jetpack.datastore
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.demo.core.datastore.Task
+import com.demo.core.datastore.model.Note
+import com.demo.core.datastore.model.User
 import com.demo.jetpack.databinding.ActivityDatastoreBinding
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch

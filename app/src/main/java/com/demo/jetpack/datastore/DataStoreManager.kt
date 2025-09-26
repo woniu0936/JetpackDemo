@@ -14,6 +14,9 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.demo.core.datastore.Task
+import com.demo.core.datastore.model.Note
+import com.demo.core.datastore.model.User
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -118,3 +121,13 @@ class DataStoreManager @Inject constructor(
 }
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = PREFERENCES_FILE_NAME)
+
+fun Task.toFormattedString(): String {
+    return """
+        Task ID: $id
+        Task Title: $title
+        Task Content: $content
+        Create Time: $createTime
+        Modify Time: $modifyTime
+    """.trimIndent()
+}

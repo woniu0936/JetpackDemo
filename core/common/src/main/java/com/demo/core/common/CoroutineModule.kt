@@ -1,8 +1,5 @@
-package com.demo.jetpack.core.data.module
+package com.demo.core.common
 
-import com.demo.jetpack.hilt.AppDispatchers
-import com.demo.jetpack.hilt.ApplicationScope
-import com.demo.jetpack.hilt.Dispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.androidx.navigation.safeargs)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.google.protobuf)
 }
 
 android {
@@ -93,8 +92,9 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore.core)
     implementation(libs.kotlin.serialization.json)
-    implementation(libs.protobuf.kotlin)
     implementation(libs.gson)
+    implementation(projects.core.common)
+    implementation(projects.core.datastore)
 
     // Testing
     kspAndroidTest(libs.hilt.compiler)
@@ -113,22 +113,4 @@ dependencies {
     testImplementation(libs.truth)
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(libs.turbine)
-}
-
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:4.32.1"
-    }
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                val java by registering {
-                    option("lite")
-                }
-                val kotlin by registering {
-                    option("lite")
-                }
-            }
-        }
-    }
 }
