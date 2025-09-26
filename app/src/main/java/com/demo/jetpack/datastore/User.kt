@@ -9,7 +9,7 @@ import java.io.InputStream
 import java.io.OutputStream
 
 @Serializable
-data class User(val id: Int, val name: String, val age: Int)
+data class User(val id: Int, val name: String, val age: Int, val createTime: Long = 0L, val modifyTime: Long = 0L)
 
 object UserSerializer : Serializer<User> {
     override val defaultValue: User = User(0, "", 0)

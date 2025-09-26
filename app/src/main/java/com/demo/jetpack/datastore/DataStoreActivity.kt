@@ -42,6 +42,17 @@ class DataStoreActivity : AppCompatActivity() {
             }
         }
 
+        binding.btnSaveTask.setOnClickListener {
+            lifecycleScope.launch {
+                val task = Task.newBuilder()
+                    .setId(binding.etTaskId.text.toString().toIntOrNull() ?: 0)
+                    .setTitle(binding.etTaskTitle.text.toString())
+                    .setContent(binding.etTaskContent.text.toString())
+                    .build()
+                dataStoreManager.updateTask(task)
+            }
+        }
+
         lifecycleScope.launch {
             combine(
                 dataStoreManager.stringFlow,
@@ -51,7 +62,8 @@ class DataStoreActivity : AppCompatActivity() {
                 dataStoreManager.doubleFlow,
                 dataStoreManager.booleanFlow,
                 dataStoreManager.stringSetFlow,
-                dataStoreManager.readUser()
+                dataStoreManager.readUser(),
+                dataStoreManager.readTask()
             ) { values ->
                 val string = values[0]
                 val int = values[1]
@@ -61,6 +73,7 @@ class DataStoreActivity : AppCompatActivity() {
                 val boolean = values[5]
                 val stringSet = values[6]
                 val user = values[7] as User
+                val task = values[8] as Task
 
                 """
                 String: $string
@@ -70,7 +83,12 @@ class DataStoreActivity : AppCompatActivity() {
                 Double: $double
                 Boolean: $boolean
                 Set: $stringSet
-                User: $user
+                User ID: ${user.id}
+                User Name: ${user.name}
+                User Age: ${user.age}
+                User Create Time: ${user.createTime}
+                User Modify Time: ${user.modifyTime}
+                Task: ${task.toFormattedString()}
                 """
             }.collect { allValues ->
                 binding.tvSavedValues.text = allValues

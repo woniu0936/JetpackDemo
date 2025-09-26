@@ -1,9 +1,18 @@
 package com.demo.jetpack.datastore
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
-import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.doublePreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -22,6 +31,13 @@ class DataStoreManager(private val context: Context) {
         DataStoreFactory.create(
             serializer = UserSerializer,
             produceFile = { context.filesDir.resolve(USER_DATA_STORE_FILE_NAME) }
+        )
+    }
+
+    private val taskManagerDataStore: DataStore<Task> by lazy {
+        DataStoreFactory.create(
+            serializer = TaskSerializer,
+            produceFile = { context.filesDir.resolve("task.pb") }
         )
     }
 
@@ -60,8 +76,33 @@ class DataStoreManager(private val context: Context) {
     }
 
     suspend fun updateUser(user: User) {
-        userManagerDataStore.updateData {
-            user
+        userManagerDataStore.updateData { currentUser ->
+            val currentTime = System.currentTimeMillis()
+            currentUser.copy(
+                id = user.id,
+                name = user.name,
+                age = user.age,
+                createTime = if (currentUser.createTime == 0L) currentTime else currentUser.createTime,
+                modifyTime = currentTime
+            )
+        }
+    }
+
+    fun readTask(): Flow<Task> {
+        return taskManagerDataStore.data
+    }
+
+    suspend fun updateTask(task: Task) {
+        taskManagerDataStore.updateData { currentTask ->
+            Log.d("DataStoreManager", "Current Task: ${currentTask.toFormattedString()}")
+            val currentTime = System.currentTimeMillis()
+            currentTask.toBuilder()
+                .setId(task.id)
+                .setTitle(task.title)
+                .setContent(task.content)
+                .setCreateTime(if (currentTask.getCreateTime() == 0L) currentTime else currentTask.getCreateTime())
+                .setModifyTime(currentTime)
+                .build()
         }
     }
 }
