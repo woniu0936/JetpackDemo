@@ -1,4 +1,4 @@
-package com.demo.core.datastore.di
+package com.demo.core.datastore.json.gson.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -7,8 +7,8 @@ import androidx.datastore.dataStoreFile
 import com.demo.core.common.AppDispatchers
 import com.demo.core.common.ApplicationScope
 import com.demo.core.common.Dispatcher
-import com.demo.core.datastore.model.Note
-import com.demo.core.datastore.serializer.NoteSerializer
+import com.demo.core.datastore.json.gson.Note
+import com.demo.core.datastore.json.gson.serializer.NoteSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

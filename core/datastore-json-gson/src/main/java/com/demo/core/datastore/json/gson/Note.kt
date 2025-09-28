@@ -1,4 +1,4 @@
-package com.demo.core.datastore.model
+package com.demo.core.datastore.json.gson
 
 /**
  * Note 数据模型。

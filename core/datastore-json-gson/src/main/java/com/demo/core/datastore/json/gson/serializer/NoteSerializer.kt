@@ -1,8 +1,8 @@
-package com.demo.core.datastore.serializer
+package com.demo.core.datastore.json.gson.serializer
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
-import com.demo.core.datastore.model.Note
+import com.demo.core.datastore.json.gson.Note
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import java.io.InputStream

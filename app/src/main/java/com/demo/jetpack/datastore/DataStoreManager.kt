@@ -14,8 +14,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.demo.core.datastore.Task
+import com.demo.core.datastore.json.gson.Note
 import com.demo.core.datastore.json.ktx.User
-import com.demo.core.datastore.model.Note
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
