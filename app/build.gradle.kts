@@ -95,6 +95,7 @@ dependencies {
     implementation(libs.gson)
     implementation(projects.core.common)
     implementation(projects.core.datastore)
+    implementation(projects.core.datastoreProto)
 
     // Testing
     kspAndroidTest(libs.hilt.compiler)

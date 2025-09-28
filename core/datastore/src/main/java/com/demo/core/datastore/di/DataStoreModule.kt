@@ -7,11 +7,9 @@ import androidx.datastore.dataStoreFile
 import com.demo.core.common.AppDispatchers
 import com.demo.core.common.ApplicationScope
 import com.demo.core.common.Dispatcher
-import com.demo.core.datastore.Task
 import com.demo.core.datastore.model.Note
 import com.demo.core.datastore.model.User
 import com.demo.core.datastore.serializer.NoteSerializer
-import com.demo.core.datastore.serializer.TaskSerializer
 import com.demo.core.datastore.serializer.UserSerializer
 import dagger.Module
 import dagger.Provides
@@ -41,19 +39,6 @@ object DataStoreModule {
         scope = CoroutineScope(scope.coroutineContext + ioDispatcher),
     ) {
         context.dataStoreFile(USER_DATA_STORE_FILE_NAME)
-    }
-
-    @Provides
-    @Singleton
-    fun provideTaskPreferencesDataStore(
-        @ApplicationContext context: Context,
-        @Dispatcher(AppDispatchers.IO) ioDispatcher: CoroutineDispatcher,
-        @ApplicationScope scope: CoroutineScope,
-    ): DataStore<Task> = DataStoreFactory.create(
-        serializer = TaskSerializer,
-        scope = CoroutineScope(scope.coroutineContext + ioDispatcher),
-    ) {
-        context.dataStoreFile(TASK_DATA_STORE_FILE_NAME)
     }
 
     @Provides
