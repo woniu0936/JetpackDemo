@@ -1,4 +1,4 @@
-package com.demo.core.datastore.model
+package com.demo.core.datastore.json.ktx
 
 import android.annotation.SuppressLint
 import kotlinx.serialization.Serializable

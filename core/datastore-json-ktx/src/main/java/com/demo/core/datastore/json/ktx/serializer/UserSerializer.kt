@@ -1,8 +1,8 @@
-package com.demo.core.datastore.serializer
+package com.demo.core.datastore.json.ktx.serializer
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
-import com.demo.core.datastore.model.User
+import com.demo.core.datastore.json.ktx.User
 import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream

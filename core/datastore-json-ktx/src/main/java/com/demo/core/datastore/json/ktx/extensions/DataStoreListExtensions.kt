@@ -1,4 +1,4 @@
-package com.demo.core.datastore.extensions
+package com.demo.core.datastore.json.ktx.extensions
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -16,6 +16,7 @@ import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import java.io.IOException
+import kotlin.text.isNullOrEmpty
 
 /**
  * [内部] 创建一个可配置的、容错的 Json 实例，专门用于 List 的序列化。

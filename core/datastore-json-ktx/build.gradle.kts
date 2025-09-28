@@ -1,5 +1,3 @@
-import com.google.protobuf.gradle.proto
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -9,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.demo.core.datastore"
+    namespace = "com.demo.core.datastore.json.ktx"
     compileSdk = 36
 
     defaultConfig {
@@ -32,18 +30,15 @@ android {
 }
 
 dependencies {
-
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.mdc)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.android)
     implementation(libs.androidx.datastore.core)
-    implementation(libs.gson)
+    implementation(libs.androidx.datastore.core.android)
     implementation(projects.core.common)
+    implementation(libs.kotlin.serialization.json)
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
 }
-
