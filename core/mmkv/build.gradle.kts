@@ -36,9 +36,12 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     testImplementation(libs.junit4)
-    testImplementation("org.mockito:mockito-core:5.11.0") // Or a compatible version
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0") // Or a compatible version
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0") // Or a compatible version
+    testImplementation("io.mockk:mockk:1.13.10")
+    testImplementation("io.mockk:mockk-agent-jvm:1.13.10")
+    testImplementation("io.mockk:mockk-android:1.13.10")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
+    testImplementation("app.cash.turbine:turbine:1.0.0")
+    testImplementation(kotlin("reflect"))
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
 }

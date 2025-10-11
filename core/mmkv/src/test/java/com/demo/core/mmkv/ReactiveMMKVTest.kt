@@ -1,30 +1,24 @@
 package com.demo.core.mmkv
 
+import app.cash.turbine.test
 import com.tencent.mmkv.MMKV
+import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import org.junit.Assert.*
+import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations
-import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.any
-import org.mockito.kotlin.eq
-import org.mockito.kotlin.times
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
+import kotlin.time.Duration.Companion.seconds
 
 @Serializable
 data class TestUser(val name: String, val age: Int)
@@ -33,13 +27,12 @@ data class TestUser(val name: String, val age: Int)
 data class TestItem(val id: String, val value: String)
 
 @OptIn(ExperimentalCoroutinesApi::class)
-@RunWith(MockitoJUnitRunner::class)
 class ReactiveMMKVTest {
 
-    @Mock
+    @MockK
     private lateinit var mockMMKV: MMKV
 
-    @Mock
+    @MockK
     private lateinit var mockEventBus: MMKVEventBus
 
     private lateinit var reactiveMMKV: ReactiveMMKV
@@ -49,18 +42,17 @@ class ReactiveMMKVTest {
     @Before
     fun setup() {
         // Initialize mocks
-        MockitoAnnotations.openMocks(this)
+        MockKAnnotations.init(this)
 
         // Create a new MutableSharedFlow for each test to ensure isolation
         val testEventsFlow = MutableSharedFlow<Pair<String, Any?>>(replay = 1)
-        whenever(mockEventBus.events).thenReturn(testEventsFlow)
+        every { mockEventBus.events } returns testEventsFlow
         // Stub the notify method to emit to our testEventsFlow
-        doAnswer { invocation ->
-            val key = invocation.arguments[0] as String
-            val value = invocation.arguments[1]
+        every { mockEventBus.notify(any<String>(), any()) } answers {
+            val key = firstArg<String>()
+            val value = secondArg<Any?>()
             testEventsFlow.tryEmit(key to value)
-            null // Void method
-        }.whenever(mockEventBus).notify(any(), any())
+        }
 
         reactiveMMKV = ReactiveMMKV(mockMMKV, mockEventBus)
     }
@@ -71,11 +63,11 @@ class ReactiveMMKVTest {
     fun `put String calls mmkv encode and notifies`() {
         val key = "testString"
         val value = "hello"
-        whenever(mockMMKV.encode(key, value)).thenReturn(true)
+        every { mockMMKV.encode(key, value) } returns true
 
         reactiveMMKV.put(key, value)
 
-        verify(mockMMKV).encode(key, value)
+        verify { mockMMKV.encode(key, value) }
         // Cannot directly verify MMKVEventBus.events.tryEmit due to private object
         // We'll rely on flow tests to indirectly verify notifications
     }
@@ -84,11 +76,11 @@ class ReactiveMMKVTest {
     fun `put null String calls mmkv encode and notifies`() {
         val key = "testNullString"
         val value: String? = null
-        whenever(mockMMKV.encode(key, value)).thenReturn(true)
+        every { mockMMKV.encode(key, value) } returns true
 
         reactiveMMKV.put(key, value)
 
-        verify(mockMMKV).encode(key, value)
+        verify { mockMMKV.encode(key, value) }
     }
 
     @Test
@@ -96,35 +88,35 @@ class ReactiveMMKVTest {
         val key = "testGetString"
         val value = "world"
         val defaultValue = "default"
-        whenever(mockMMKV.decodeString(key, defaultValue)).thenReturn(value)
+        every { mockMMKV.decodeString(key, defaultValue) } returns value
 
         val result = reactiveMMKV.get(key, defaultValue)
 
         assertEquals(value, result)
-        verify(mockMMKV).decodeString(key, defaultValue)
+        verify { mockMMKV.decodeString(key, defaultValue) }
     }
 
     @Test
     fun `get String returns default value if key not found`() = runTest(testDispatcher) {
         val key = "nonExistentString"
         val defaultValue = "default"
-        whenever(mockMMKV.decodeString(key, defaultValue)).thenReturn(defaultValue)
+        every { mockMMKV.decodeString(key, defaultValue) } returns defaultValue
 
         val result = reactiveMMKV.get(key, defaultValue)
 
         assertEquals(defaultValue, result)
-        verify(mockMMKV).decodeString(key, defaultValue)
+        verify { mockMMKV.decodeString(key, defaultValue) }
     }
 
     @Test
     fun `put Int calls mmkv encode`() {
         val key = "testInt"
         val value = 123
-        whenever(mockMMKV.encode(key, value)).thenReturn(true)
+        every { mockMMKV.encode(key, value) } returns true
 
         reactiveMMKV.put(key, value)
 
-        verify(mockMMKV).encode(key, value)
+        verify { mockMMKV.encode(key, value) }
     }
 
     @Test
@@ -132,23 +124,23 @@ class ReactiveMMKVTest {
         val key = "testGetInt"
         val value = 456
         val defaultValue = 0
-        whenever(mockMMKV.decodeInt(key, defaultValue)).thenReturn(value)
+        every { mockMMKV.decodeInt(key, defaultValue) } returns value
 
         val result = reactiveMMKV.get(key, defaultValue)
 
         assertEquals(value, result)
-        verify(mockMMKV).decodeInt(key, defaultValue)
+        verify { mockMMKV.decodeInt(key, defaultValue) }
     }
 
     @Test
     fun `put Boolean calls mmkv encode`() {
         val key = "testBoolean"
         val value = true
-        whenever(mockMMKV.encode(key, value)).thenReturn(true)
+        every { mockMMKV.encode(key, value) } returns true
 
         reactiveMMKV.put(key, value)
 
-        verify(mockMMKV).encode(key, value)
+        verify { mockMMKV.encode(key, value) }
     }
 
     @Test
@@ -156,23 +148,23 @@ class ReactiveMMKVTest {
         val key = "testGetBoolean"
         val value = false
         val defaultValue = true
-        whenever(mockMMKV.decodeBool(key, defaultValue)).thenReturn(value)
+        every { mockMMKV.decodeBool(key, defaultValue) } returns value
 
         val result = reactiveMMKV.get(key, defaultValue)
 
         assertEquals(value, result)
-        verify(mockMMKV).decodeBool(key, defaultValue)
+        verify { mockMMKV.decodeBool(key, defaultValue) }
     }
 
     @Test
     fun `put Long calls mmkv encode`() {
         val key = "testLong"
         val value = 1234567890L
-        whenever(mockMMKV.encode(key, value)).thenReturn(true)
+        every { mockMMKV.encode(key, value) } returns true
 
         reactiveMMKV.put(key, value)
 
-        verify(mockMMKV).encode(key, value)
+        verify { mockMMKV.encode(key, value) }
     }
 
     @Test
@@ -180,23 +172,23 @@ class ReactiveMMKVTest {
         val key = "testGetLong"
         val value = 9876543210L
         val defaultValue = 0L
-        whenever(mockMMKV.decodeLong(key, defaultValue)).thenReturn(value)
+        every { mockMMKV.decodeLong(key, defaultValue) } returns value
 
         val result = reactiveMMKV.get(key, defaultValue)
 
         assertEquals(value, result)
-        verify(mockMMKV).decodeLong(key, defaultValue)
+        verify { mockMMKV.decodeLong(key, defaultValue) }
     }
 
     @Test
     fun `put Float calls mmkv encode`() {
         val key = "testFloat"
         val value = 1.23f
-        whenever(mockMMKV.encode(key, value)).thenReturn(true)
+        every { mockMMKV.encode(key, value) } returns true
 
         reactiveMMKV.put(key, value)
 
-        verify(mockMMKV).encode(key, value)
+        verify { mockMMKV.encode(key, value) }
     }
 
     @Test
@@ -204,23 +196,23 @@ class ReactiveMMKVTest {
         val key = "testGetFloat"
         val value = 4.56f
         val defaultValue = 0.0f
-        whenever(mockMMKV.decodeFloat(key, defaultValue)).thenReturn(value)
+        every { mockMMKV.decodeFloat(key, defaultValue) } returns value
 
         val result = reactiveMMKV.get(key, defaultValue)
 
         assertEquals(value, result)
-        verify(mockMMKV).decodeFloat(key, defaultValue)
+        verify { mockMMKV.decodeFloat(key, defaultValue) }
     }
 
     @Test
     fun `put Double calls mmkv encode`() {
         val key = "testDouble"
         val value = 1.2345
-        whenever(mockMMKV.encode(key, value)).thenReturn(true)
+        every { mockMMKV.encode(key, value) } returns true
 
         reactiveMMKV.put(key, value)
 
-        verify(mockMMKV).encode(key, value)
+        verify { mockMMKV.encode(key, value) }
     }
 
     @Test
@@ -228,23 +220,23 @@ class ReactiveMMKVTest {
         val key = "testGetDouble"
         val value = 6.7890
         val defaultValue = 0.0
-        whenever(mockMMKV.decodeDouble(key, defaultValue)).thenReturn(value)
+        every { mockMMKV.decodeDouble(key, defaultValue) } returns value
 
         val result = reactiveMMKV.get(key, defaultValue)
 
         assertEquals(value, result, 0.0001) // Delta for double comparison
-        verify(mockMMKV).decodeDouble(key, defaultValue)
+        verify { mockMMKV.decodeDouble(key, defaultValue) }
     }
 
     @Test
     fun `put ByteArray calls mmkv encode`() {
         val key = "testByteArray"
         val value = "data".toByteArray()
-        whenever(mockMMKV.encode(key, value)).thenReturn(true)
+        every { mockMMKV.encode(key, value) } returns true
 
         reactiveMMKV.put(key, value)
 
-        verify(mockMMKV).encode(key, value)
+        verify { mockMMKV.encode(key, value) }
     }
 
     @Test
@@ -252,23 +244,23 @@ class ReactiveMMKVTest {
         val key = "testGetByteArray"
         val value = "data".toByteArray()
         val defaultValue: ByteArray? = null
-        whenever(mockMMKV.decodeBytes(key, defaultValue)).thenReturn(value)
+        every { mockMMKV.decodeBytes(key, defaultValue) } returns value
 
         val result = reactiveMMKV.get(key, defaultValue)
 
         assertArrayEquals(value, result)
-        verify(mockMMKV).decodeBytes(key, defaultValue)
+        verify { mockMMKV.decodeBytes(key, defaultValue) }
     }
 
     @Test
     fun `put Set of String calls mmkv encode`() {
         val key = "testSetString"
         val value = setOf("a", "b")
-        whenever(mockMMKV.encode(key, value)).thenReturn(true)
+        every { mockMMKV.encode(key, value) } returns true
 
         reactiveMMKV.put(key, value)
 
-        verify(mockMMKV).encode(key, value)
+        verify { mockMMKV.encode(key, value) }
     }
 
     @Test
@@ -276,12 +268,12 @@ class ReactiveMMKVTest {
         val key = "testGetSetString"
         val value = setOf("c", "d")
         val defaultValue: Set<String>? = null
-        whenever(mockMMKV.decodeStringSet(key, defaultValue)).thenReturn(value)
+        every { mockMMKV.decodeStringSet(key, defaultValue) } returns value
 
         val result = reactiveMMKV.get(key, defaultValue)
 
         assertEquals(value, result)
-        verify(mockMMKV).decodeStringSet(key, defaultValue)
+        verify { mockMMKV.decodeStringSet(key, defaultValue) }
     }
 
     // --- Flow API Tests (Native Types) ---
@@ -293,7 +285,7 @@ class ReactiveMMKVTest {
         val firstValue = "initial"
         val secondValue = "updated"
 
-        whenever(mockMMKV.decodeString(key, defaultValue)).thenReturn(firstValue)
+        every { mockMMKV.decodeString(key, defaultValue) } returns firstValue
 
         val flow = reactiveMMKV.getFlow(key, defaultValue)
         val emittedValues = mutableListOf<String?>()
@@ -303,12 +295,14 @@ class ReactiveMMKVTest {
         }
 
         // Initial value
+        testDispatcher.scheduler.runCurrent()
         assertEquals(listOf(firstValue), emittedValues)
 
         // Update value
-        whenever(mockMMKV.encode(key, secondValue)).thenReturn(true)
+        every { mockMMKV.encode(key, secondValue) } returns true
+        every { mockMMKV.decodeString(key, defaultValue) } returns secondValue
         reactiveMMKV.put(key, secondValue)
-        testDispatcher.scheduler.runCurrent() // Ensure all pending coroutines run
+        testDispatcher.scheduler.advanceUntilIdle() // Ensure all pending coroutines run
 
         // The flow should now have emitted the second value
         assertEquals(listOf(firstValue, secondValue), emittedValues)
@@ -323,7 +317,7 @@ class ReactiveMMKVTest {
         val firstValue = 10
         val secondValue = 20
 
-        whenever(mockMMKV.decodeInt(key, defaultValue)).thenReturn(firstValue)
+        every { mockMMKV.decodeInt(key, defaultValue) } returns firstValue
 
         val flow = reactiveMMKV.getFlow(key, defaultValue)
         val emittedValues = mutableListOf<Int>()
@@ -332,9 +326,11 @@ class ReactiveMMKVTest {
             flow.collect { emittedValues.add(it) }
         }
 
+        testDispatcher.scheduler.runCurrent()
         assertEquals(listOf(firstValue), emittedValues)
 
-        whenever(mockMMKV.encode(key, secondValue)).thenReturn(true)
+        every { mockMMKV.encode(key, secondValue) } returns true
+        every { mockMMKV.decodeInt(key, defaultValue) } returns secondValue
         reactiveMMKV.put(key, secondValue)
         testDispatcher.scheduler.runCurrent()
 
@@ -349,7 +345,7 @@ class ReactiveMMKVTest {
         val defaultValue = "initial"
         val value = "sameValue"
 
-        whenever(mockMMKV.decodeString(key, defaultValue)).thenReturn(defaultValue)
+        every { mockMMKV.decodeString(key, defaultValue) } returns defaultValue
 
         val flow = reactiveMMKV.getFlow(key, defaultValue)
         val emittedValues = mutableListOf<String?>()
@@ -358,10 +354,12 @@ class ReactiveMMKVTest {
             flow.collect { emittedValues.add(it) }
         }
 
+        testDispatcher.scheduler.runCurrent()
         assertEquals(listOf(defaultValue), emittedValues)
 
         // Put the same value, should not emit again due to distinctUntilChanged
-        whenever(mockMMKV.encode(key, value)).thenReturn(true)
+        every { mockMMKV.encode(key, value) } returns true
+        every { mockMMKV.decodeString(key, defaultValue) } returns value // Re-stub for re-read
         reactiveMMKV.put(key, value)
         testDispatcher.scheduler.runCurrent()
         assertEquals(listOf(defaultValue, value), emittedValues) // Should emit once for the change
@@ -382,11 +380,11 @@ class ReactiveMMKVTest {
         val jsonString = ReactiveMMKV.json.encodeToString(user)
 
         // Mock the underlying put(String, String) call
-        whenever(mockMMKV.encode(key, jsonString)).thenReturn(true)
+        every { mockMMKV.encode(key, jsonString) } returns true
 
         reactiveMMKV.putObject(key, user)
 
-        verify(mockMMKV).encode(key, jsonString)
+        verify { mockMMKV.encode(key, jsonString) }
     }
 
     @Test
@@ -395,11 +393,11 @@ class ReactiveMMKVTest {
         val user: TestUser? = null
 
         // For void methods, we don't use thenReturn
-        // whenever(mockMMKV.removeValueForKey(key)).thenReturn(true)
+         every { mockMMKV.removeValueForKey(key) } just Runs // MockK equivalent for void
 
         reactiveMMKV.putObject(key, user)
 
-        verify(mockMMKV).removeValueForKey(key)
+        verify { mockMMKV.removeValueForKey(key) }
     }
 
     @Test
@@ -409,12 +407,12 @@ class ReactiveMMKVTest {
         val jsonString = ReactiveMMKV.json.encodeToString(user)
         val defaultValue = TestUser("Guest", 0)
 
-        whenever(mockMMKV.decodeString(key)).thenReturn(jsonString)
+        every { mockMMKV.decodeString(key) } returns jsonString
 
         val result = reactiveMMKV.getObject(key, defaultValue)
 
         assertEquals(user, result)
-        verify(mockMMKV).decodeString(key)
+        verify { mockMMKV.decodeString(key) }
     }
 
     @Test
@@ -422,12 +420,12 @@ class ReactiveMMKVTest {
         val key = "nonExistentObject"
         val defaultValue = TestUser("Guest", 0)
 
-        whenever(mockMMKV.decodeString(key)).thenReturn(null)
+        every { mockMMKV.decodeString(key) } returns null
 
         val result = reactiveMMKV.getObject(key, defaultValue)
 
         assertEquals(defaultValue, result)
-        verify(mockMMKV).decodeString(key)
+        verify { mockMMKV.decodeString(key) }
     }
 
     @Test
@@ -436,38 +434,52 @@ class ReactiveMMKVTest {
         val invalidJson = "{ \"name\": \"Charlie\", \"age\": \"twenty\" }" // age is string, should be int
         val defaultValue = TestUser("Guest", 0)
 
-        whenever(mockMMKV.decodeString(key)).thenReturn(invalidJson)
+        every { mockMMKV.decodeString(key) } returns invalidJson
 
         val result = reactiveMMKV.getObject(key, defaultValue)
 
         assertEquals(defaultValue, result)
-        verify(mockMMKV).decodeString(key)
+        verify { mockMMKV.decodeString(key) }
     }
 
     @Test
     fun `getObjectFlow emits initial object and subsequent changes`() = runTest(testDispatcher) {
+        // 1. Arrange (准备阶段 - 保持不变)
         val key = "flowObject"
         val user1 = TestUser("Dave", 40)
         val user2 = TestUser("Eve", 22)
         val defaultValue = TestUser("Default", 0)
 
-        // Mock initial value for decodeString(key, null)
-        whenever(mockMMKV.decodeString(eq(key), eq(null as String?))).thenReturn(ReactiveMMKV.json.encodeToString(user1))
+        val user1Json = ReactiveMMKV.json.encodeToString(user1)
+        val user2Json = ReactiveMMKV.json.encodeToString(user2)
 
+        // 预设 Flow 启动时会读取的初始 JSON 值
+        every { mockMMKV.decodeString(eq(key), any()) } returns user1Json
+
+        // 2. Act & Assert (执行与断言 - 使用 Turbine 重构)
         val flow = reactiveMMKV.getObjectFlow(key, defaultValue)
 
-        val collectJob = launch(testDispatcher) {
-            val emittedValues = flow.take(2).toList()
-            assertEquals(listOf(user1, user2), emittedValues)
+        // 使用 Turbine 的 .test {} 代码块
+        flow.test {
+            // (A) 断言并消费 Flow 发射的第一个对象
+            // awaitItem() 会挂起，直到接收到值，完美解决时序问题
+            assertEquals(user1, awaitItem())
+
+            // (B) 准备并执行更新操作
+            // 当 Flow 因为事件通知而重新查询时，让它读到新的 JSON
+            every { mockMMKV.decodeString(eq(key), any()) } returns user2Json
+            // 预设 putObject 内部会调用的 encode 方法
+            every { mockMMKV.encode(key, user2Json) } returns true
+
+            reactiveMMKV.putObject(key, user2)
+
+            // (C) 断言并消费 Flow 发射的第二个对象
+            // 再次调用 awaitItem() 等待下一次发射
+            assertEquals(user2, awaitItem())
+
+            // (D) (可选) 验证没有更多意外的发射
+            expectNoEvents()
         }
-
-        // Update value
-        val user2Json = ReactiveMMKV.json.encodeToString(user2)
-        whenever(mockMMKV.encode(key, user2Json)).thenReturn(true)
-        reactiveMMKV.putObject(key, user2)
-        testDispatcher.scheduler.advanceUntilIdle() // Ensure all pending coroutines run
-
-        collectJob.join() // Wait for the collection to complete
     }
 
     @Test
@@ -476,7 +488,7 @@ class ReactiveMMKVTest {
         val defaultValue = TestUser("Default", 0)
 
         // Initial state: null string
-        whenever(mockMMKV.decodeString(key, null as String?)).thenReturn(null)
+        every { mockMMKV.decodeString(key, null as String?) } returns null
 
         val flow = reactiveMMKV.getObjectFlow(key, defaultValue)
         val emittedValues = mutableListOf<TestUser>()
@@ -485,11 +497,13 @@ class ReactiveMMKVTest {
             flow.collect { emittedValues.add(it) }
         }
 
+        testDispatcher.scheduler.runCurrent()
         assertEquals(listOf(defaultValue), emittedValues)
 
         // Update with invalid JSON
         val invalidJson = "{ \"name\": \"Charlie\", \"age\": \"twenty\" }"
-        whenever(mockMMKV.encode(key, invalidJson)).thenReturn(true)
+        every { mockMMKV.encode(key, invalidJson) } returns true
+        every { mockMMKV.decodeString(key, any()) } returns invalidJson // Re-stub for re-read
         reactiveMMKV.put(key, invalidJson) // Use put to simulate raw string storage
         testDispatcher.scheduler.runCurrent()
 
@@ -507,12 +521,12 @@ class ReactiveMMKVTest {
         val jsonString = ReactiveMMKV.json.encodeToString(list)
         val defaultValue = emptyList<TestItem>()
 
-        whenever(mockMMKV.decodeString(key)).thenReturn(jsonString)
+        every { mockMMKV.decodeString(key) } returns jsonString
 
         val result = reactiveMMKV.getList<TestItem>(key, defaultValue)
 
         assertEquals(list, result)
-        verify(mockMMKV).decodeString(key)
+        verify { mockMMKV.decodeString(key) }
     }
 
     @Test
@@ -520,12 +534,12 @@ class ReactiveMMKVTest {
         val key = "nonExistentList"
         val defaultValue = emptyList<TestItem>()
 
-        whenever(mockMMKV.decodeString(key)).thenReturn(null)
+        every { mockMMKV.decodeString(key) } returns null
 
         val result = reactiveMMKV.getList<TestItem>(key, defaultValue)
 
         assertEquals(defaultValue, result)
-        verify(mockMMKV).decodeString(key)
+        verify { mockMMKV.decodeString(key) }
     }
 
     @Test
@@ -537,9 +551,9 @@ class ReactiveMMKVTest {
         val updatedJson = ReactiveMMKV.json.encodeToString(updatedList)
 
         // Mock initial read
-        whenever(mockMMKV.decodeString(key)).thenReturn(initialJson)
+        every { mockMMKV.decodeString(key) } returns initialJson
         // Mock write back
-        whenever(mockMMKV.encode(eq(key), any<String>())).thenReturn(true)
+        every { mockMMKV.encode(eq(key), any<String>()) } returns true
 
         reactiveMMKV.editList<TestItem>(key) { currentList ->
             assertEquals(initialList, currentList)
@@ -547,35 +561,48 @@ class ReactiveMMKVTest {
         }
 
         // Verify getList was called (which calls decodeString)
-        verify(mockMMKV).decodeString(key)
+        verify { mockMMKV.decodeString(key) }
         // Verify putObject was called with the transformed list
-        verify(mockMMKV).encode(key, updatedJson)
+        verify { mockMMKV.encode(key, updatedJson) }
     }
 
     @Test
-    fun `getListFlow emits initial list and subsequent changes`() = runTest(testDispatcher) {
+    fun `getListFlow emits initial list and subsequent changes`() = runTest {
+        // Arrange
         val key = "flowList"
-        val list1 = listOf(TestItem("1", "A"))
-        val list2 = listOf(TestItem("1", "A"), TestItem("2", "B"))
+        val list1 = listOf(TestItem(id = "1", value = "A"))
+        val list2 = listOf(TestItem(id = "1", value = "A"), TestItem(id = "2", value = "B"))
         val defaultValue = emptyList<TestItem>()
 
-        // Mock initial value for decodeString(key, null)
-        whenever(mockMMKV.decodeString(eq(key), eq(null as String?))).thenReturn(ReactiveMMKV.json.encodeToString(list1))
+        val list1Json = ReactiveMMKV.json.encodeToString(list1)
+        val list2Json = ReactiveMMKV.json.encodeToString(list2)
 
+        // Mock initial value for the Flow's `onStart` block
+        every { mockMMKV.decodeString(key, any()) } returns list1Json
+
+        // Act & Assert
         val flow = reactiveMMKV.getListFlow(key, defaultValue)
 
-        val collectJob = launch(testDispatcher) {
-            val emittedValues = flow.take(2).toList()
-            assertEquals(listOf(list1, list2), emittedValues)
+        // 使用 Turbine 的 .test {} 代码块
+        flow.test(timeout = 3.seconds) { // 设置一个合理的超时以防测试卡死
+            // 1. 断言并消费第一个发射项
+            // awaitItem() 会挂起直到接收到一个新值
+            assertEquals(list1, awaitItem())
+
+            // 2. 准备并执行更新操作
+            // Re-stub the decodeString for any potential re-reads (good practice)
+            every { mockMMKV.decodeString(key, any()) } returns list2Json
+            // Mock the encode call that putObject will trigger
+            every { mockMMKV.encode(key, list2Json) } returns true
+
+            reactiveMMKV.putObject(key, list2)
+
+            // 3. 断言并消费第二个发射项
+            assertEquals(list2, awaitItem())
+
+            // (可选) 确保没有其他意外的发射
+            expectNoEvents()
         }
-
-        // Update value
-        val list2Json = ReactiveMMKV.json.encodeToString(list2)
-        whenever(mockMMKV.encode(key, list2Json)).thenReturn(true)
-        reactiveMMKV.putObject(key, list2)
-        testDispatcher.scheduler.advanceUntilIdle() // Ensure all pending coroutines run
-
-        collectJob.join() // Wait for the collection to complete
     }
 
     // --- Map API Tests ---
@@ -587,12 +614,12 @@ class ReactiveMMKVTest {
         val jsonString = ReactiveMMKV.json.encodeToString(map)
         val defaultValue = emptyMap<String, TestItem>()
 
-        whenever(mockMMKV.decodeString(key)).thenReturn(jsonString)
+        every { mockMMKV.decodeString(key) } returns jsonString
 
         val result = reactiveMMKV.getMap<String, TestItem>(key, defaultValue)
 
         assertEquals(map, result)
-        verify(mockMMKV).decodeString(key)
+        verify { mockMMKV.decodeString(key) }
     }
 
     @Test
@@ -600,12 +627,12 @@ class ReactiveMMKVTest {
         val key = "nonExistentMap"
         val defaultValue = emptyMap<String, TestItem>()
 
-        whenever(mockMMKV.decodeString(key)).thenReturn(null)
+        every { mockMMKV.decodeString(key) } returns null
 
         val result = reactiveMMKV.getMap<String, TestItem>(key, defaultValue)
 
         assertEquals(defaultValue, result)
-        verify(mockMMKV).decodeString(key)
+        verify { mockMMKV.decodeString(key) }
     }
 
     @Test
@@ -617,9 +644,9 @@ class ReactiveMMKVTest {
         val updatedJson = ReactiveMMKV.json.encodeToString(updatedMap)
 
         // Mock initial read
-        whenever(mockMMKV.decodeString(key)).thenReturn(initialJson)
+        every { mockMMKV.decodeString(key) } returns initialJson
         // Mock write back
-        whenever(mockMMKV.encode(eq(key), any<String>())).thenReturn(true)
+        every { mockMMKV.encode(eq(key), any<String>()) } returns true
 
         reactiveMMKV.editMap<String, TestItem>(key) { currentMap ->
             assertEquals(initialMap, currentMap)
@@ -627,35 +654,50 @@ class ReactiveMMKVTest {
         }
 
         // Verify getMap was called (which calls decodeString)
-        verify(mockMMKV).decodeString(key)
+        verify { mockMMKV.decodeString(key) }
         // Verify putObject was called with the transformed map
-        verify(mockMMKV).encode(key, updatedJson)
+        verify { mockMMKV.encode(key, updatedJson) }
     }
 
     @Test
     fun `getMapFlow emits initial map and subsequent changes`() = runTest(testDispatcher) {
+        // 1. Arrange (准备阶段 - 这部分保持不变)
         val key = "flowMap"
         val map1 = mapOf("item1" to TestItem("1", "A"))
         val map2 = mapOf("item1" to TestItem("1", "A"), "item2" to TestItem("2", "B"))
         val defaultValue = emptyMap<String, TestItem>()
 
-        // Mock initial value for decodeString(key, null)
-        whenever(mockMMKV.decodeString(eq(key), eq(null as String?))).thenReturn(ReactiveMMKV.json.encodeToString(map1))
+        val map1Json = ReactiveMMKV.json.encodeToString(map1)
+        val map2Json = ReactiveMMKV.json.encodeToString(map2)
 
+        // 预设 Flow 启动时读取的初始值
+        every { mockMMKV.decodeString(eq(key), any()) } returns map1Json
+
+        // 2. Act & Assert (执行与断言 - 使用 Turbine 重构)
         val flow = reactiveMMKV.getMapFlow(key, defaultValue)
 
-        val collectJob = launch(testDispatcher) {
-            val emittedValues = flow.take(2).toList()
-            assertEquals(listOf(map1, map2), emittedValues)
+        // 使用 Turbine 的 .test {} 代码块来包裹所有 Flow 相关的操作
+        flow.test {
+            // (A) 断言并消费第一个发射项
+            // awaitItem() 会挂起测试，直到 Flow 发射一个新值，然后返回该值。
+            // 这完美地解决了时序问题。
+            assertEquals(map1, awaitItem())
+
+            // (B) 准备并执行更新操作
+            // 重新预设 decodeString 的行为，以便在 Flow 内部重新读取时获取新值
+            every { mockMMKV.decodeString(eq(key), any()) } returns map2Json
+            // 预设 putObject 内部会调用的 encode 方法
+            every { mockMMKV.encode(key, map2Json) } returns true
+
+            reactiveMMKV.putObject(key, map2)
+
+            // (C) 断言并消费第二个发射项
+            // 再次调用 awaitItem()，它会等待由 putObject 触发的下一次发射。
+            assertEquals(map2, awaitItem())
+
+            // (D) (可选) 确保 Flow 在此之后没有再发射任何意料之外的值
+            expectNoEvents()
         }
-
-        // Update value
-        val map2Json = ReactiveMMKV.json.encodeToString(map2)
-        whenever(mockMMKV.encode(key, map2Json)).thenReturn(true)
-        reactiveMMKV.putObject(key, map2)
-        testDispatcher.scheduler.advanceUntilIdle() // Ensure all pending coroutines run
-
-        collectJob.join() // Wait for the collection to complete
     }
 
     // --- General and Internal Implementation Tests ---
@@ -664,11 +706,11 @@ class ReactiveMMKVTest {
     fun `remove calls mmkv removeValueForKey and notifies`() {
         val key = "removeKey"
         // For void methods, we don't use thenReturn
-        // whenever(mockMMKV.removeValueForKey(key)).thenReturn(true)
+         every { mockMMKV.removeValueForKey(key) } just Runs // MockK equivalent for void
 
         reactiveMMKV.remove(key)
 
-        verify(mockMMKV).removeValueForKey(key)
+        verify { mockMMKV.removeValueForKey(key) }
     }
 
     // --- Preference Delegate Tests ---
@@ -679,13 +721,13 @@ class ReactiveMMKVTest {
         val defaultValue = 100
         val storedValue = 200
 
-        whenever(mockMMKV.decodeInt(key, defaultValue)).thenReturn(storedValue)
+        every { mockMMKV.decodeInt(key, defaultValue) } returns storedValue
 
         val delegate = reactiveMMKV.preference(key, defaultValue)
         val holder = object { var myInt: Int by delegate }
 
         assertEquals(storedValue, holder.myInt)
-        verify(mockMMKV).decodeInt(key, defaultValue)
+        verify { mockMMKV.decodeInt(key, defaultValue) }
     }
 
     @Test
@@ -694,14 +736,14 @@ class ReactiveMMKVTest {
         val defaultValue = 100
         val newValue = 300
 
-        whenever(mockMMKV.encode(key, newValue)).thenReturn(true)
+        every { mockMMKV.encode(key, newValue) } returns true
 
         val delegate = reactiveMMKV.preference(key, defaultValue)
         val holder = object { var myInt: Int by delegate }
 
         holder.myInt = newValue
 
-        verify(mockMMKV).encode(key, newValue)
+        verify { mockMMKV.encode(key, newValue) }
     }
 
     // --- Observe Aliases Tests ---

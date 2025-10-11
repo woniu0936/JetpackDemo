@@ -54,55 +54,7 @@ class ReactiveMMKV @Inject constructor(
             }
         }
 
-//        @Volatile
-//        private var INSTANCE: ReactiveMMKV? = null
-//
-//        /**
-//         * 获取 ReactiveMMKV 的全局单例。
-//         *
-//         * @return ReactiveMMKV 的单例实例。
-//         *
-//         * ### 使用示例:
-//         * ```
-//         * // 在 Application 或依赖注入模块中
-//         * val mmkv = ReactiveMMKV.getInstance()
-//         * ```
-//         */
-//        fun getInstance(): ReactiveMMKV {
-//            return INSTANCE ?: synchronized(this) {
-//                INSTANCE ?: ReactiveMMKV(MMKV.defaultMMKV()).also { INSTANCE = it }
-//            }
-//        }
-//
-//        /**
-//         * 获取 ReactiveMMKV 的全局单例，并在首次调用时初始化 MMKV。
-//         * 这是一个线程安全的双重检查锁定实现。
-//         *
-//         * @param context ApplicationContext，仅在首次初始化时需要。
-//         * @return ReactiveMMKV 的单例实例。
-//         *
-//         * ### 使用示例:
-//         * ```
-//         * // 在 Application.onCreate 中
-//         * class MyApplication : Application() {
-//         *     override fun onCreate() {
-//         *         super.onCreate()
-//         *         ReactiveMMKV.getInstance(this)
-//         *     }
-//         * }
-//         *
-//         * // 在其他地方获取实例
-//         * val mmkv = ReactiveMMKV.getInstance(context)
-//         * ```
-//         */
-//        fun getInstance(context: Context): ReactiveMMKV {
-//            return INSTANCE ?: synchronized(this) {
-//                INSTANCE ?: run {
-//                    MMKV.initialize(context.applicationContext)
-//                    ReactiveMMKV(MMKV.defaultMMKV()).also { INSTANCE = it }
-//                }
-//            }
-//        }
+
     }
 
     /* ======================================================================================= */
