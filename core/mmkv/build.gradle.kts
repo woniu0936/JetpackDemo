@@ -30,18 +30,17 @@ android {
 }
 
 dependencies {
-    implementation("com.tencent:mmkv:1.3.14")
+    implementation(libs.mmkv)
     implementation(libs.kotlin.serialization.json)
     implementation(libs.kotlin.coroutines.android)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     testImplementation(libs.junit4)
-    testImplementation("io.mockk:mockk:1.13.10")
-    testImplementation("io.mockk:mockk-agent-jvm:1.13.10")
-    testImplementation("io.mockk:mockk-android:1.13.10")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
-    testImplementation("app.cash.turbine:turbine:1.0.0")
-    testImplementation(kotlin("reflect"))
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockk.agent.jvm)
+    testImplementation(libs.mockk.android)
+    testImplementation(libs.kotlin.coroutines.test)
+    testImplementation(libs.turbine)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
 }
