@@ -131,6 +131,61 @@ fun String.getDouble(key: String, defaultValue: Double = 0.0): Double {
     }
 }
 
+fun String.getStringOrNull(key: String): String? {
+    return try {
+        JsonParser.parseString(this)
+            .takeIf { it.isJsonObject }
+            ?.asJsonObject
+            ?.getStringOrNull(key) // 复用 JsonObject 的扩展
+    } catch (e: Exception) {
+        null
+    }
+}
+
+fun String.getIntOrNull(key: String): Int? {
+    return try {
+        JsonParser.parseString(this)
+            .takeIf { it.isJsonObject }
+            ?.asJsonObject
+            ?.getIntOrNull(key) // 复用 JsonObject 的扩展
+    } catch (e: Exception) {
+        null
+    }
+}
+
+fun String.getLongOrNull(key: String): Long? {
+    return try {
+        JsonParser.parseString(this)
+            .takeIf { it.isJsonObject }
+            ?.asJsonObject
+            ?.getLongOrNull(key) // 复用 JsonObject 的扩展
+    } catch (e: Exception) {
+        null
+    }
+}
+
+fun String.getBooleanOrNull(key: String): Boolean? {
+    return try {
+        JsonParser.parseString(this)
+            .takeIf { it.isJsonObject }
+            ?.asJsonObject
+            ?.getBooleanOrNull(key) // 复用 JsonObject 的扩展
+    } catch (e: Exception) {
+        null
+    }
+}
+
+fun String.getDoubleOrNull(key: String): Double? {
+    return try {
+        JsonParser.parseString(this)
+            .takeIf { it.isJsonObject }
+            ?.asJsonObject
+            ?.getDoubleOrNull(key) // 复用 JsonObject 的扩展
+    } catch (e: Exception) {
+        null
+    }
+}
+
 // =======================================================================================
 // ===                       3. 从 JsonObject 中提取指定字段                           ===
 // =======================================================================================
@@ -180,6 +235,36 @@ fun JsonObject.getDouble(key: String, defaultValue: Double = 0.0): Double {
         ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isNumber }
         ?.asDouble
         ?: defaultValue
+}
+
+fun JsonObject.getStringOrNull(key: String): String? {
+    return this.get(key)
+        ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isString }
+        ?.asString
+}
+
+fun JsonObject.getIntOrNull(key: String): Int? {
+    return this.get(key)
+        ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isNumber }
+        ?.asInt
+}
+
+fun JsonObject.getLongOrNull(key: String): Long? {
+    return this.get(key)
+        ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isNumber }
+        ?.asLong
+}
+
+fun JsonObject.getBooleanOrNull(key: String): Boolean? {
+    return this.get(key)
+        ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isBoolean }
+        ?.asBoolean
+}
+
+fun JsonObject.getDoubleOrNull(key: String): Double? {
+    return this.get(key)
+        ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isNumber }
+        ?.asDouble
 }
 
 
@@ -232,6 +317,51 @@ fun JsonArray.getDouble(index: Int, defaultValue: Double = 0.0): Double {
         ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isNumber }
         ?.asDouble
         ?: defaultValue
+}
+
+fun JsonArray.getStringOrNull(index: Int): String? {
+    if (index < 0 || index >= this.size()) {
+        return null
+    }
+    return this.get(index)
+        ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isString }
+        ?.asString
+}
+
+fun JsonArray.getIntOrNull(index: Int): Int? {
+    if (index < 0 || index >= this.size()) {
+        return null
+    }
+    return this.get(index)
+        ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isNumber }
+        ?.asInt
+}
+
+fun JsonArray.getLongOrNull(index: Int): Long? {
+    if (index < 0 || index >= this.size()) {
+        return null
+    }
+    return this.get(index)
+        ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isNumber }
+        ?.asLong
+}
+
+fun JsonArray.getBooleanOrNull(index: Int): Boolean? {
+    if (index < 0 || index >= this.size()) {
+        return null
+    }
+    return this.get(index)
+        ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isBoolean }
+        ?.asBoolean
+}
+
+fun JsonArray.getDoubleOrNull(index: Int): Double? {
+    if (index < 0 || index >= this.size()) {
+        return null
+    }
+    return this.get(index)
+        ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isNumber }
+        ?.asDouble
 }
 
 // =======================================================================================
