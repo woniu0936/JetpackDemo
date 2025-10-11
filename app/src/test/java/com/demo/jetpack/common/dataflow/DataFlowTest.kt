@@ -345,4 +345,115 @@ class DataFlowTest {
     }
 
     // endregion
+
+    // region catchInitialError Tests
+
+    /**
+     * 测试场景: Flow 抛出 NetworkUnavailableException。
+     * 预期结果: onNetworkUnavailable lambda 被调用，并且 Flow 正常完成（因为错误被捕获处理）。
+     */
+    @Test
+    fun `catchInitialError - catches NetworkUnavailableException`() = runTest {
+        var networkUnavailableHandled = false
+        flow<String> { throw NetworkUnavailableException("req1") }
+            .catchInitialError(
+                onNetworkUnavailable = { networkUnavailableHandled = true }
+            )
+            .test {
+                awaitComplete()
+            }
+        assertThat(networkUnavailableHandled).isTrue()
+    }
+
+    /**
+     * 测试场景: Flow 抛出 RemoteEmptyException。
+     * 预期结果: onRemoteEmpty lambda 被调用，并且 Flow 正常完成。
+     */
+    @Test
+    fun `catchInitialError - catches RemoteEmptyException`() = runTest {
+        var remoteEmptyHandled = false
+        flow<String> { throw RemoteEmptyException("req2") }
+            .catchInitialError(
+                onRemoteEmpty = { remoteEmptyHandled = true }
+            )
+            .test {
+                awaitComplete()
+            }
+        assertThat(remoteEmptyHandled).isTrue()
+    }
+
+    /**
+     * 测试场景: Flow 抛出 RemoteFailedException。
+     * 预期结果: onRemoteFailed lambda 被调用，并且 Flow 正常完成。
+     */
+    @Test
+    fun `catchInitialError - catches RemoteFailedException`() = runTest {
+        var remoteFailedHandled = false
+        flow<String> { throw RemoteFailedException("req3", IOException("Remote failed")) }
+            .catchInitialError(
+                onRemoteFailed = { remoteFailedHandled = true }
+            )
+            .test {
+                awaitComplete()
+            }
+        assertThat(remoteFailedHandled).isTrue()
+    }
+
+    /**
+     * 测试场景: Flow 抛出非 InitialDataLoadException 类型的未知异常。
+     * 预期结果: onUnknown lambda 被调用，并且 Flow 正常完成。
+     */
+    @Test
+    fun `catchInitialError - catches unknown exception`() = runTest {
+        var unknownHandled = false
+        val genericException = IllegalStateException("Something unexpected")
+        flow<String> { throw genericException }
+            .catchInitialError(
+                onUnknown = { error ->
+                    unknownHandled = true
+                    assertThat(error).isEqualTo(genericException)
+                }
+            )
+            .test {
+                awaitComplete()
+            }
+        assertThat(unknownHandled).isTrue()
+    }
+
+    /**
+     * 测试场景: Flow 成功发射数据，没有抛出任何异常。
+     * 预期结果: Flow 正常发射数据并完成，没有任何错误处理 lambda 被调用。
+     */
+    @Test
+    fun `catchInitialError - no error, emits data normally`() = runTest {
+        var anyErrorHandled = false
+        flowOf("Success Data")
+            .catchInitialError(
+                onNetworkUnavailable = { anyErrorHandled = true },
+                onRemoteEmpty = { anyErrorHandled = true },
+                onRemoteFailed = { anyErrorHandled = true },
+                onUnknown = { anyErrorHandled = true }
+            )
+            .test {
+                assertThat(awaitItem()).isEqualTo("Success Data")
+                awaitComplete()
+            }
+        assertThat(anyErrorHandled).isFalse()
+    }
+
+    /**
+     * 测试场景: Flow 抛出异常，但 catchInitialError 没有提供任何处理 lambda（使用默认空实现）。
+     * 预期结果: 异常被捕获，Flow 正常完成，不会崩溃。
+     */
+    @Test
+    fun `catchInitialError - with default empty lambdas, catches error and completes`() = runTest {
+        flow<String> { throw NetworkUnavailableException("req4") }
+            .catchInitialError() // Using default empty lambdas
+            .test {
+                awaitComplete()
+            }
+        // No assertion on handled flag, just that it completes without crashing
+    }
+
+    // endregion
 }
