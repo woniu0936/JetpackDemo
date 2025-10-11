@@ -24,10 +24,6 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 // 内部事件总线，用于在 MMKV 值变化时发出通知。
-private object MMKVEventBus {
-    val events = MutableSharedFlow<Pair<String, Any?>>(replay = 1)
-}
-
 /**
  * [V13 - Kotlinx Serialization] 一个高性能、线程安全、响应式的 MMKV 封装库。
  *
@@ -40,7 +36,10 @@ private object MMKVEventBus {
  * data class User(val name: String, val age: Int)
  */
 @Singleton
-class ReactiveMMKV @Inject constructor(private val mmkv: MMKV) {
+class ReactiveMMKV @Inject constructor(
+    private val mmkv: MMKV,
+    private val eventBus: MMKVEventBus
+) {
 
     companion object {
         /**
@@ -404,11 +403,11 @@ class ReactiveMMKV @Inject constructor(private val mmkv: MMKV) {
     }
 
     private fun notify(key: String, value: Any?) {
-        MMKVEventBus.events.tryEmit(key to value)
+        eventBus.notify(key, value)
     }
 
     private fun <T> getFlowInternal(key: String, defaultValue: T): Flow<T> =
-        MMKVEventBus.events
+        eventBus.events
             .filter { it.first == key }
             .map { it.second as? T ?: defaultValue }
             .onStart {

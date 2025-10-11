@@ -1,6 +1,10 @@
 package com.demo.core.mmkv.di
 
 import android.content.Context
+import com.demo.core.mmkv.DefaultMMKVEventBus
+import com.demo.core.mmkv.DefaultMMKVInitializer
+import com.demo.core.mmkv.MMKVEventBus
+import com.demo.core.mmkv.MMKVInitializer
 import com.tencent.mmkv.MMKV
 import dagger.Module
 import dagger.Provides
@@ -20,10 +24,24 @@ object MmkvModule {
      */
     @Provides
     @Singleton
-    fun provideMMKV(@ApplicationContext context: Context): MMKV {
-        // 在这里执行 MMKV 的初始化
-        MMKV.initialize(context)
-        return MMKV.defaultMMKV()
+    fun provideMMKV(
+        @ApplicationContext context: Context,
+        mmkvInitializer: MMKVInitializer
+    ): MMKV {
+        mmkvInitializer.initialize(context)
+        return mmkvInitializer.defaultMMKV()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMMKVEventBus(): MMKVEventBus {
+        return DefaultMMKVEventBus()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMMKVInitializer(): MMKVInitializer {
+        return DefaultMMKVInitializer()
     }
 
 }

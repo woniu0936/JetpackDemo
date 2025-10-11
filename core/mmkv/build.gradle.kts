@@ -36,6 +36,9 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     testImplementation(libs.junit4)
+    testImplementation("org.mockito:mockito-core:5.11.0") // Or a compatible version
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0") // Or a compatible version
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0") // Or a compatible version
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
 }
