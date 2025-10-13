@@ -12,6 +12,7 @@ import java.io.File
  * @see LogConfig
  * @see Logger
  * @see LoggerFactory
+ * @see TraceInternal
  */
 object AppLogger {
 
@@ -164,6 +165,47 @@ object AppLogger {
     fun flushSync() {
         if (!isInitialized) return // Don't throw if not initialized, just ignore
         fileManager.flushSync()
+    }
+
+    /**
+     * [调试专用] 生成一个简短的、唯一的 ID，用于跟踪请求或操作流。
+     * 此方法仅在调试（debug）版本中可用，在发布（release）版本中可能返回空字符串或抛出异常。
+     *
+     * @return 一个新的跟踪 ID 字符串。
+     *
+     * @example
+     * ```kotlin
+     * val traceId = AppLogger.newTraceId()
+     * AppLogger.getLogger("Network").d { "发起请求，Trace ID: $traceId" }
+     * ```
+     */
+    fun newTraceId(): String {
+        // 直接调用与构建变体相关的 internal 函数
+        return newTraceIdInternal()
+    }
+
+    /**
+     * [调试专用] 跟踪给定代码块的执行时间，并记录详细的性能日志。
+     * 此方法仅在调试（debug）版本中可用，在发布（release）版本中将不执行任何操作。
+     *
+     * @param tag 跟踪日志的特定标签，用于区分不同的跟踪点。
+     * @param block 要执行并测量其耗时的代码块。
+     * @return 代码块的执行结果。
+     *
+     * @example
+     * ```kotlin
+     * // 示例：测量数据加载操作的耗时
+     * val data = AppLogger.trace("DataLoader") {
+     *     // 模拟数据加载
+     *     Thread.sleep(200)
+     *     "Loaded Data"
+     * }
+     * AppLogger.getLogger("DataLoader").i { "数据加载完成: $data" }
+     * ```
+     */
+    inline fun <T> trace(tag: String, block: () -> T): T {
+        // 直接调用与构建变体相关的 internal inline 函数
+        return traceInternal(tag, block)
     }
 
     /**

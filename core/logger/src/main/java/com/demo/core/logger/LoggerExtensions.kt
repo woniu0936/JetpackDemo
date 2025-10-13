@@ -128,3 +128,37 @@ fun logE(tag: String, throwable: Throwable? = null, message: () -> String) {
         AppLogger.getLogger(tag).e(message)
     }
 }
+
+/**
+ * [调试专用] [顶层函数 & Lambda] 跟踪给定代码块的执行时间并记录结果。
+ * 必须提供一个描述操作的标签。
+ *
+ * 在发布（release）版本中，此函数将简单地执行代码块，不产生任何性能开销。
+ *
+ * @param tag 跟踪操作的描述性标签。
+ * @param block 要执行并测量其耗时的代码块。
+ * @return 代码块的执行结果。
+ *
+ * @example
+ * ```kotlin
+ * // 示例：测量一个耗时操作的执行时间
+ * fun someUtility() {
+ *     val result = trace("HeavyCalculation") {
+ *         // ... 执行耗时操作 ...
+ *         "计算完成"
+ *     }
+ *     // result 将是 "计算完成"
+ * }
+ *
+ * // 示例：在顶层函数中使用
+ * val processedData = trace("DataProcessing") {
+ *     // ... 数据处理逻辑 ...
+ *     "处理后的数据"
+ * }
+ * ```
+ */
+inline fun <T> trace(tag: String, block: () -> T): T {
+    // 此调用是内联的。在发布版本中，它会直接调用空的 `traceInternal`，
+    // 然后 `traceInternal` 也会被内联，最终只执行 `block`。
+    return AppLogger.trace(tag, block)
+}
