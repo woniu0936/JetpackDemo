@@ -1,30 +1,24 @@
 package com.demo.core.logger
 
-class Logger internal constructor(private val tag: String) {
+/**
+ * An instance of a logger tied to a specific tag. Provides both Kotlin and Java-friendly APIs.
+ * Obtain instances via `LogManager.getLogger(...)`.
+ */
+class Logger internal constructor(private val loggerImpl: ILogger) {
 
-    fun d(msg: () -> String) {
-        LoggerFactory.get().d(tag, msg)
-    }
+    // --- Kotlin API (Lambda-based) ---
+    fun v(message: () -> String) = loggerImpl.v(message)
+    fun d(message: () -> String) = loggerImpl.d(message)
+    fun i(message: () -> String) = loggerImpl.i(message)
+    fun w(message: () -> String) = loggerImpl.w(null, message)
+    fun w(throwable: Throwable, message: () -> String) = loggerImpl.w(throwable, message)
+    fun e(message: () -> String) = loggerImpl.e(null, message)
+    fun e(throwable: Throwable, message: () -> String) = loggerImpl.e(throwable, message)
 
-    fun i(msg: () -> String) {
-        LoggerFactory.get().i(tag, msg)
-    }
-
-    fun w(tr: Throwable? = null, msg: () -> String) {
-        LoggerFactory.get().w(tag, tr, msg)
-    }
-
-    fun e(tr: Throwable? = null, msg: () -> String) {
-        LoggerFactory.get().e(tag, tr, msg)
-    }
-
-    // Java-friendly overloads
-    @JvmOverloads
-    fun d(msg: String) { d { msg } }
-    @JvmOverloads
-    fun i(msg: String) { i { msg } }
-    @JvmOverloads
-    fun w(msg: String, tr: Throwable? = null) { w(tr) { msg } }
-    @JvmOverloads
-    fun e(msg: String, tr: Throwable? = null) { e(tr) { msg } }
+    // --- Java API (String-based) ---
+    fun v(message: String) = loggerImpl.v { message }
+    fun d(message: String) = loggerImpl.d { message }
+    fun i(message: String) = loggerImpl.i { message }
+    @JvmOverloads fun w(message: String, throwable: Throwable? = null) = loggerImpl.w(throwable) { message }
+    @JvmOverloads fun e(message: String, throwable: Throwable? = null) = loggerImpl.e(throwable) { message }
 }

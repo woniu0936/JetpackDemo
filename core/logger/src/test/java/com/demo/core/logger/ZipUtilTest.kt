@@ -22,7 +22,7 @@ class ZipUtilTest {
         file2.writeText("world")
         val zipFile = tempFolder.newFile("test.zip")
 
-        val result = ZipUtil.zipFiles(listOf(file1, file2), zipFile)
+        val result = logger.ZipUtil.zipFiles(listOf(file1, file2), zipFile)
 
         assertTrue(result)
         ZipFile(zipFile).use {
@@ -34,7 +34,7 @@ class ZipUtilTest {
     @Test
     fun `zipFiles should return false for empty list`() {
         val zipFile = tempFolder.newFile("test.zip")
-        val result = ZipUtil.zipFiles(emptyList(), zipFile)
+        val result = logger.ZipUtil.zipFiles(emptyList(), zipFile)
         assertFalse(result)
     }
 
@@ -45,7 +45,7 @@ class ZipUtilTest {
         val nonExistentFile = File(tempFolder.root, "nonexistent.txt")
         val zipFile = tempFolder.newFile("test.zip")
 
-        val result = ZipUtil.zipFiles(listOf(file1, nonExistentFile), zipFile)
+        val result = logger.ZipUtil.zipFiles(listOf(file1, nonExistentFile), zipFile)
 
         assertTrue(result)
         ZipFile(zipFile).use {

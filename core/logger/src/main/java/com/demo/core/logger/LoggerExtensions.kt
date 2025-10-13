@@ -1,22 +1,34 @@
 package com.demo.core.logger
 
-val Any.logger: Logger
-    get() = LoggerFactory.getLogger(this.javaClass.simpleName)
-
-private val topLevelLogger = LoggerFactory.getLogger("TopLevel")
-
-fun logd(tag: String? = null, msg: () -> String) {
-    (tag?.let { LoggerFactory.getLogger(it) } ?: topLevelLogger).d(msg)
+fun Any.logger(): Logger {
+    return LogManager.getLogger(this.javaClass)
 }
 
-fun logi(tag: String? = null, msg: () -> String) {
-    (tag?.let { LoggerFactory.getLogger(it) } ?: topLevelLogger).i(msg)
+// 顶层函数的 v, d, i 变得更简单
+fun logV(tag: String, message: () -> String) = LogManager.getLogger(tag).v(message)
+fun logD(tag: String, message: () -> String) = LogManager.getLogger(tag).d(message)
+fun logI(tag: String, message: () -> String) = LogManager.getLogger(tag).i(message)
+
+/**
+ * [For Top-Level & Lambdas]
+ * A top-level function for logging a WARNING message.
+ */
+fun logW(tag: String, throwable: Throwable? = null, message: () -> String) {
+    if (throwable != null) {
+        LogManager.getLogger(tag).w(throwable, message)
+    } else {
+        LogManager.getLogger(tag).w(message)
+    }
 }
 
-fun logw(tag: String? = null, msg: () -> String, tr: Throwable? = null) {
-    (tag?.let { LoggerFactory.getLogger(it) } ?: topLevelLogger).w(tr, msg)
-}
-
-fun loge(tag: String? = null, msg: () -> String, tr: Throwable? = null) {
-    (tag?.let { LoggerFactory.getLogger(it) } ?: topLevelLogger).e(tr, msg)
+/**
+ * [For Top-Level & Lambdas]
+ * A top-level function for logging an ERROR message.
+ */
+fun logE(tag: String, throwable: Throwable? = null, message: () -> String) {
+    if (throwable != null) {
+        LogManager.getLogger(tag).e(throwable, message)
+    } else {
+        LogManager.getLogger(tag).e(message)
+    }
 }

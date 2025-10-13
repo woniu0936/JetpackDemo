@@ -77,7 +77,7 @@ object LogFileManager {
         if (ZipUtil.zipFiles(filesToZip, zipFile)) {
             val uri = FileProvider.getUriForFile(context, authority, zipFile)
             val sendIntent = Intent(Intent.ACTION_SEND).apply {
-                type = "application/zip"
+                setType("application/zip")
                 putExtra(Intent.EXTRA_STREAM, uri)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 putExtra(Intent.EXTRA_SUBJECT, subject)

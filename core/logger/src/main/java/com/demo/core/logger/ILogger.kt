@@ -1,8 +1,14 @@
 package com.demo.core.logger
 
-interface ILogger {
-    fun d(tag: String, msg: () -> String)
-    fun i(tag: String, msg: () -> String)
-    fun w(tag: String, tr: Throwable? = null, msg: () -> String)
-    fun e(tag: String, tr: Throwable? = null, msg: () -> String)
+/**
+ * The core logging interface.
+ * `Throwable` is intentionally restricted to `w` and `e` levels to enforce
+ * semantic correctness in logging practices.
+ */
+internal interface ILogger {
+    fun v(message: () -> String)
+    fun d(message: () -> String)
+    fun i(message: () -> String)
+    fun w(throwable: Throwable? = null, message: () -> String)
+    fun e(throwable: Throwable? = null, message: () -> String)
 }

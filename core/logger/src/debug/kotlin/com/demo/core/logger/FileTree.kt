@@ -13,9 +13,12 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
 internal class FileTree(
-    private val logsDir: File,
-    private val keepDays: Int = 7
+    private val config: LogConfig // <-- 接收 LogConfig 对象
 ) : Timber.Tree() {
+
+    // 从 config 中获取日志目录和保留天数
+    private val logsDir: File = config.logDir!! // 在 Debug 初始化时已确保非空
+    private val keepDays: Int = config.retentionDays
 
     private val utcTimeZone = TimeZone.getTimeZone("UTC")
     private val fileDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US).apply { timeZone = utcTimeZone }
