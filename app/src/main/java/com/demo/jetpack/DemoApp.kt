@@ -21,7 +21,11 @@ class DemoApp : Application() {
         ProcessLifecycleOwner.get().lifecycle.addObserver(AppLifecycle)
         Mavericks.initialize(this)
         AppLogger.init(this)
-        CrashManager.init(this)
+        CrashManager.init(this) {
+            onCrash { _ ->
+                AppLogger.flushSync()
+            }
+        }
     }
 
 }
