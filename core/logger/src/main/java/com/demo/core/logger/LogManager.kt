@@ -13,6 +13,8 @@ object LogManager {
     private val factory = LoggerFactory
     private val lock = Any()
 
+    private lateinit var fileManager: ILogFileManager
+
     /**
      * [For Kotlin - Recommended DSL]
      * Initializes the logging system using a DSL-style configuration block.
@@ -65,8 +67,46 @@ object LogManager {
             }
 
             LoggerInitializer.initialize(context.applicationContext, finalConfig)
+
+            fileManager = LogFileManagerImpl(config)
+
             isInitialized = true
         }
+    }
+
+    // --- Log File Management API ---
+
+    /**
+     * Shares log files from recent days as a ZIP file.
+     * This is a no-op in release builds.
+     * @param context The context to start the share intent.
+     * @param days The number of recent days' logs to include.
+     */
+    @JvmStatic
+    fun shareRecentLogs(context: Context, days: Int = 1) {
+        checkInitialized()
+        fileManager.shareRecentLogs(context, days)
+    }
+
+    /**
+     * Shares the latest crash report along with recent log files.
+     * This is a no-op in release builds.
+     * @param context The context to start the share intent.
+     * @param days The number of recent days' logs to include with the crash report.
+     */
+    @JvmStatic
+    fun shareCrashReport(context: Context, days: Int = 3) {
+        checkInitialized()
+        fileManager.shareCrashReport(context, days)
+    }
+
+    /**
+     * Synchronously flushes all buffered logs to disk.
+     * This is a no-op in release builds.
+     */
+    fun flushSync() {
+        if (!isInitialized) return // Don't throw if not initialized, just ignore
+        fileManager.flushSync()
     }
 
     /**

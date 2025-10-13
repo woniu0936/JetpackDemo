@@ -9,15 +9,14 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-object LogFileManager {
+internal class LogFileManagerImpl(
+    private val config: LogConfig
+) : ILogFileManager {
 
     private val fileDateFormat = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US)
 
-    fun logsDir(context: Context): File =
-        File(context.getExternalFilesDir(null), "logs")
-
-    fun shareRecentLogs(context: Context, authority: String, days: Int = 1) {
-        val logsDir = logsDir(context)
+    override fun shareRecentLogs(context: Context, days: Int) {
+        val logsDir = config.logDir ?: return
         val now = System.currentTimeMillis()
         val deadline = now - days * 24 * 3600 * 1000L
 
@@ -25,44 +24,16 @@ object LogFileManager {
             f.name.startsWith("tracker-") && f.lastModified() in deadline..now
         }?.sortedByDescending { it.lastModified() } ?: emptyList()
 
-        shareLogsAsZip(
-            context = context,
-            authority = authority,
-            filesToZip = recentLogs,
-            zipFileNameBase = "logs-report",
-            subject = "App Daily Logs"
-        )
+        shareLogsAsZip(context, recentLogs, "logs-report", "App Daily Logs")
     }
 
-    fun shareCrashReport(context: Context, authority: String, days: Int = 3) {
-        val logsDir = logsDir(context)
 
-        val crashFile = logsDir.listFiles { f -> f.name.startsWith("crash-") }
-            ?.maxByOrNull { it.lastModified() }
-            ?: run {
-                Log.w("LogFileManager", "No crash logs found to share.")
-                return
-            }
+    override fun shareCrashReport(context: Context, days: Int) {
 
-        val deadline = System.currentTimeMillis() - days * 24 * 3600 * 1000L
-        val recentLogs = logsDir.listFiles { f ->
-            f.name.startsWith("tracker-") && f.lastModified() >= deadline
-        }?.toList() ?: emptyList()
-
-        val filesToZip = (recentLogs + crashFile).distinct()
-
-        shareLogsAsZip(
-            context = context,
-            authority = authority,
-            filesToZip = filesToZip,
-            zipFileNameBase = "crash-report",
-            subject = "App Crash Report"
-        )
     }
 
     private fun shareLogsAsZip(
         context: Context,
-        authority: String,
         filesToZip: List<File>,
         zipFileNameBase: String,
         subject: String
@@ -71,10 +42,10 @@ object LogFileManager {
             Log.w("LogFileManager", "No log files found to share for subject: $subject")
             return
         }
-
         val zipFile = File(context.cacheDir, "$zipFileNameBase-${fileDateFormat.format(Date())}.zip")
 
         if (ZipUtil.zipFiles(filesToZip, zipFile)) {
+            val authority = "${context.packageName}.fileprovider"
             val uri = FileProvider.getUriForFile(context, authority, zipFile)
             val sendIntent = Intent(Intent.ACTION_SEND).apply {
                 setType("application/zip")
@@ -86,10 +57,12 @@ object LogFileManager {
         }
     }
 
-    fun flushSync() {
+    override fun flushSync() {
         Timber.forest()
             .filterIsInstance<FileTree>()
             .firstOrNull()
             ?.flushSync()
     }
+
+
 }
