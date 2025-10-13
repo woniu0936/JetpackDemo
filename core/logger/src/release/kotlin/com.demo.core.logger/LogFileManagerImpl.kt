@@ -9,6 +9,5 @@ internal class LogFileManagerImpl(
     private val config: LogConfig // 构造函数签名保持一致
 ) : ILogFileManager {
     override fun shareRecentLogs(context: Context, days: Int) { /* No-op */ }
-    override fun shareCrashReport(context: Context, days: Int) { /* No-op */ }
     override fun flushSync() { /* No-op */ }
 }

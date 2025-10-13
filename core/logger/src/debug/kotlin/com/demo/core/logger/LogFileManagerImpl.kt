@@ -27,11 +27,6 @@ internal class LogFileManagerImpl(
         shareLogsAsZip(context, recentLogs, "logs-report", "App Daily Logs")
     }
 
-
-    override fun shareCrashReport(context: Context, days: Int) {
-
-    }
-
     private fun shareLogsAsZip(
         context: Context,
         filesToZip: List<File>,

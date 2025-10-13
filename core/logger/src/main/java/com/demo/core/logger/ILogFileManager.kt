@@ -8,6 +8,5 @@ import android.content.Context
  */
 internal interface ILogFileManager {
     fun shareRecentLogs(context: Context, days: Int)
-    fun shareCrashReport(context: Context, days: Int)
     fun flushSync()
 }

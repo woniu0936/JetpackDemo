@@ -10,7 +10,6 @@ import java.io.File
  */
 class LogConfig private constructor( // <-- 构造函数设为 private
     val enableFileLogging: Boolean,
-    val enableCrashReporting: Boolean,
     val logDir: File?,
     val retentionDays: Int
 ) {
@@ -20,15 +19,11 @@ class LogConfig private constructor( // <-- 构造函数设为 private
      */
     class Builder {
         private var enableFileLogging: Boolean = true
-        private var enableCrashReporting: Boolean = true
         private var logDir: File? = null
         private var retentionDays: Int = 7
 
         /** Sets whether file logging is enabled. */
         fun enableFileLogging(enable: Boolean) = apply { this.enableFileLogging = enable }
-
-        /** Sets whether crash reporting is enabled. */
-        fun enableCrashReporting(enable: Boolean) = apply { this.enableCrashReporting = enable }
 
         /** Sets the custom directory for log files. */
         fun logDir(directory: File) = apply { this.logDir = directory }
@@ -39,7 +34,6 @@ class LogConfig private constructor( // <-- 构造函数设为 private
         /** Builds and returns the immutable [LogConfig] instance. */
         fun build() = LogConfig(
             enableFileLogging = enableFileLogging,
-            enableCrashReporting = enableCrashReporting,
             logDir = logDir,
             retentionDays = retentionDays
         )

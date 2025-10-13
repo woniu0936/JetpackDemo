@@ -58,7 +58,6 @@ object AppLogger {
                 // (虽然 LogConfig 是不可变的，但我们可以创建一个新的)
                 LogConfig.Builder()
                     .enableFileLogging(config.enableFileLogging)
-                    .enableCrashReporting(config.enableCrashReporting)
                     .retentionDays(config.retentionDays)
                     .logDir(File(context.filesDir, "logs")) // <-- 设置默认值
                     .build()
@@ -66,9 +65,9 @@ object AppLogger {
                 config
             }
 
-            initializeTrees(config)
+            initializeTrees(finalConfig)
 
-            fileManager = LogFileManagerImpl(config)
+            fileManager = LogFileManagerImpl(finalConfig)
 
             isInitialized = true
         }
@@ -86,18 +85,6 @@ object AppLogger {
     fun shareRecentLogs(context: Context, days: Int = 1) {
         checkInitialized()
         fileManager.shareRecentLogs(context, days)
-    }
-
-    /**
-     * Shares the latest crash report along with recent log files.
-     * This is a no-op in release builds.
-     * @param context The context to start the share intent.
-     * @param days The number of recent days' logs to include with the crash report.
-     */
-    @JvmStatic
-    fun shareCrashReport(context: Context, days: Int = 3) {
-        checkInitialized()
-        fileManager.shareCrashReport(context, days)
     }
 
     /**
