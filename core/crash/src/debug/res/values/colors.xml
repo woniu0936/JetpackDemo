@@ -1,3 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Colors for stack trace formatting -->
+    <color name="color_exception">#FF6B68</color> <!-- A reddish color for exception names -->
+    <color name="color_app_stack">#A9B7C6</color> <!-- Keep app stack lines in the default code color -->
 </resources>

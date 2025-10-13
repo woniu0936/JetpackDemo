@@ -32,6 +32,7 @@ android {
 dependencies {
 
     debugImplementation(libs.appcompat)
+    debugImplementation(libs.mdc)
     debugImplementation(libs.androidx.core)
     implementation(libs.square.okio)
     testImplementation(libs.junit4)

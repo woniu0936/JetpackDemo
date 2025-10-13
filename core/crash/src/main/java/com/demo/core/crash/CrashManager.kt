@@ -45,13 +45,5 @@ object CrashManager {
             isInitialized = true
         }
     }
-
-    /**
-     * [Debug Only] This method is defined as an extension function in the `debug` source set.
-     * It will not exist in release builds, causing a compile error if called from release code.
-     *
-     * In Kotlin: `CrashManager.shareCrashReport(this)`
-     * In Java: `CrashManagerKt.shareCrashReport(CrashManager.INSTANCE, this)`
-     */
-    // The actual function is now defined in the debug source set.
+    
 }

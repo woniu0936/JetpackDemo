@@ -38,7 +38,7 @@ internal class CrashHandlerImpl(
         /**
          * Finds the latest crash report, creates a share intent, and starts it.
          */
-        fun shareReport(context: Context) {
+        fun shareCrashReport(context: Context) {
             val crashDir = getCrashLogDir(context)
             if (!crashDir.exists() || !crashDir.isDirectory) {
                 Log.w("CrashSharer", "Crash directory does not exist.")
