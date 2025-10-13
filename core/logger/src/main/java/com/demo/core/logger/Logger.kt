@@ -2,7 +2,7 @@ package com.demo.core.logger
 
 /**
  * An instance of a logger tied to a specific tag. Provides both Kotlin and Java-friendly APIs.
- * Obtain instances via `LogManager.getLogger(...)`.
+ * Obtain instances via `AppLogger.getLogger(...)`.
  */
 class Logger internal constructor(private val loggerImpl: ILogger) {
 

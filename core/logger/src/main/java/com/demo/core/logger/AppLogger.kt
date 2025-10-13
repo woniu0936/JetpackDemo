@@ -6,7 +6,7 @@ import java.io.File
 /**
  * [Public Facade] The single, public entry point for the entire logging module.
  */
-object LogManager {
+object AppLogger {
 
     @Volatile
     private var isInitialized = false
@@ -66,7 +66,7 @@ object LogManager {
                 config
             }
 
-            LoggerInitializer.initialize(context.applicationContext, finalConfig)
+            initializeTrees(config)
 
             fileManager = LogFileManagerImpl(config)
 
@@ -129,7 +129,7 @@ object LogManager {
 
     /**
      * A convenience extension to get a [Logger] instance for any class.
-     * Usage in Kotlin: `private val log by lazy { LogManager.logger() }`
+     * Usage in Kotlin: `private val log by lazy { AppLogger.logger() }`
      */
     fun Any.logger(): Logger {
         checkInitialized()
@@ -139,7 +139,7 @@ object LogManager {
     private fun checkInitialized() {
         if (!isInitialized && BuildConfig.DEBUG) {
             throw IllegalStateException(
-                "LogManager.init(context) must be called before obtaining a logger. " +
+                "AppLogger.init(context) must be called before obtaining a logger. " +
                         "Typically, this is done in your Application.onCreate()."
             )
         }

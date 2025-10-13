@@ -1,13 +1,13 @@
 package com.demo.core.logger
 
 fun Any.logger(): Logger {
-    return LogManager.getLogger(this.javaClass)
+    return AppLogger.getLogger(this.javaClass)
 }
 
 // 顶层函数的 v, d, i 变得更简单
-fun logV(tag: String, message: () -> String) = LogManager.getLogger(tag).v(message)
-fun logD(tag: String, message: () -> String) = LogManager.getLogger(tag).d(message)
-fun logI(tag: String, message: () -> String) = LogManager.getLogger(tag).i(message)
+fun logV(tag: String, message: () -> String) = AppLogger.getLogger(tag).v(message)
+fun logD(tag: String, message: () -> String) = AppLogger.getLogger(tag).d(message)
+fun logI(tag: String, message: () -> String) = AppLogger.getLogger(tag).i(message)
 
 /**
  * [For Top-Level & Lambdas]
@@ -15,9 +15,9 @@ fun logI(tag: String, message: () -> String) = LogManager.getLogger(tag).i(messa
  */
 fun logW(tag: String, throwable: Throwable? = null, message: () -> String) {
     if (throwable != null) {
-        LogManager.getLogger(tag).w(throwable, message)
+        AppLogger.getLogger(tag).w(throwable, message)
     } else {
-        LogManager.getLogger(tag).w(message)
+        AppLogger.getLogger(tag).w(message)
     }
 }
 
@@ -27,8 +27,8 @@ fun logW(tag: String, throwable: Throwable? = null, message: () -> String) {
  */
 fun logE(tag: String, throwable: Throwable? = null, message: () -> String) {
     if (throwable != null) {
-        LogManager.getLogger(tag).e(throwable, message)
+        AppLogger.getLogger(tag).e(throwable, message)
     } else {
-        LogManager.getLogger(tag).e(message)
+        AppLogger.getLogger(tag).e(message)
     }
 }
