@@ -1,4 +1,4 @@
-package com.novel.library.log
+package com.demo.core.logger
 
 import android.content.Context
 

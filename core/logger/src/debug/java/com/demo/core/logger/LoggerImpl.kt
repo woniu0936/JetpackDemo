@@ -1,13 +1,13 @@
 package com.demo.core.logger
 
-import com.novel.library.Libs
+import android.content.Context
 import timber.log.Timber
 
 internal object LoggerImpl : ILogger {
 
-    init {
+    override fun init(context: Context) {
         if (Timber.treeCount == 0) {
-            val logsDir = LogFileManager.logsDir(Libs.application())
+            val logsDir = LogFileManager.logsDir(context)
             Timber.plant(Timber.DebugTree())
             Timber.plant(FileTree(logsDir))
             CrashFileTree(logsDir).plant()
