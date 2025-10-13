@@ -2,7 +2,7 @@ package com.demo.jetpack
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.demo.jetpack.core.extension.logD
+import com.demo.core.logger.logd
 import com.demo.jetpack.core.extension.startActivity
 import com.demo.jetpack.core.extension.viewBindings
 import com.demo.jetpack.databinding.ActivityMainBinding
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         scroll.setOnTouchListener { v, event ->
-            logD("NMNMNMNXXXIUYIU") { "canScrollVertically(1): ${scroll.canScrollVertically(1)}, canScrollVertically(-1): ${scroll.canScrollVertically(-1)}" }
+            logd("NMNMNMNXXXIUYIU") { "canScrollVertically(1): ${scroll.canScrollVertically(1)}, canScrollVertically(-1): ${scroll.canScrollVertically(-1)}" }
             false
         }
 
