@@ -99,6 +99,7 @@ dependencies {
     implementation(projects.core.datastoreJsonKtx)
     implementation(projects.core.datastoreJsonGson)
     implementation(projects.core.logger)
+    implementation(projects.core.crash)
 
     // Testing
     kspAndroidTest(libs.hilt.compiler)

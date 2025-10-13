@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--
+      This allows sharing files from the app's internal cache directory.
+      Used by the crash and log sharing features to share ZIP/TXT files.
+    -->
+    <cache-path
+        name="cache_files"
+        path="." />
+
+    <!--
+      This allows sharing files from the "files" directory, where we store crash reports.
+      The path "crashes/" corresponds to the CRASH_DIR constant.
+    -->
+    <files-path
+        name="crash_reports"
+        path="crashes/" />
+
+</paths>
