@@ -3,7 +3,7 @@ package com.demo.jetpack.hilt
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.demo.jetpack.core.extension.logD
+import com.demo.core.logger.logD
 import com.demo.jetpack.databinding.ActivityHiltBinding
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.OkHttpClient

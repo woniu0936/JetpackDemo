@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.postDelayed
 import androidx.fragment.app.Fragment
 import com.demo.jetpack.R
-import com.demo.jetpack.core.extension.logD
+import com.demo.core.logger.logD
 import com.demo.jetpack.core.extension.viewBinding
 import com.demo.jetpack.databinding.FragmentNavHomeBinding
 

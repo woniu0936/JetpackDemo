@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.demo.jetpack.core.extension.logD
+import com.demo.core.logger.logD
 import com.demo.jetpack.core.extension.viewBindings
 import com.demo.jetpack.databinding.ActivityScrollBinding
 

@@ -27,92 +27,112 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
+import com.demo.core.logger.logger // Add this import
 
 class MainActivity : AppCompatActivity() {
 
     private val mBinding: ActivityMainBinding by viewBindings(::inflate)
+    private val log by lazy { logger() } // Add logger instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
         initEvent()
+        log.d { "MainActivity onCreate called." } // Example log
     }
 
     private fun initEvent() = with(mBinding) {
         btnHilt.setOnClickListener {
+            log.d { "Hilt button clicked." }
             startActivity<HiltActivity>(this@MainActivity)
         }
 
         btnLifecycle.setOnClickListener {
+            log.d { "Lifecycle button clicked." }
             startActivity<LifecycleActivity>(this@MainActivity)
         }
 
         btnPaging.setOnClickListener {
+            log.d { "Paging button clicked." }
             startActivity<PagingActivity>(this@MainActivity)
         }
 
         btnMavericks.setOnClickListener {
+            log.d { "Mavericks button clicked." }
             startActivity<Mavericks01Activity>(this@MainActivity)
         }
 
         btnMotionLayout01.setOnClickListener {
+            log.d { "MotionLayout01 button clicked." }
             startActivity<MotionLayoutActivity01>(this@MainActivity)
         }
 
         btnMotionLayout02.setOnClickListener {
+            log.d { "MotionLayout02 button clicked." }
             startActivity<MotionLayoutActivity02>(this@MainActivity)
         }
 
         btnMotionLayout03.setOnClickListener {
+            log.d { "MotionLayout03 button clicked." }
             startActivity<MotionLayoutActivity03>(this@MainActivity)
         }
 
         btnMotionLayout04.setOnClickListener {
+            log.d { "MotionLayout04 button clicked." }
             startActivity<MotionLayoutActivity04>(this@MainActivity)
         }
 
         btnMotionLayout05.setOnClickListener {
+            log.d { "MotionLayout05 button clicked." }
             startActivity<MotionLayoutActivity05>(this@MainActivity)
         }
 
         btnMotionLayout06.setOnClickListener {
+            log.d { "MotionLayout06 button clicked." }
             startActivity<MotionLayoutActivity06>(this@MainActivity)
         }
 
         btnMotionLayout07.setOnClickListener {
+            log.d { "MotionLayout07 button clicked." }
             startActivity<MotionLayoutActivity07>(this@MainActivity)
         }
 
         btnMotionLayout08.setOnClickListener {
+            log.d { "MotionLayout08 button clicked." }
             startActivity<MotionLayoutActivity08>(this@MainActivity)
         }
 
         btnMotionLayout09.setOnClickListener {
+            log.d { "MotionLayout09 button clicked." }
             startActivity<MotionLayoutActivity09>(this@MainActivity)
         }
 
         btnViewPager.setOnClickListener {
+            log.d { "ViewPager button clicked." }
             startActivity<ViewPager2Activity>(this@MainActivity)
         }
 
         btnNavigation.setOnClickListener {
+            log.d { "Navigation button clicked." }
             startActivity<NavigationActivity>(this@MainActivity)
         }
 
         btnScroll.setOnClickListener {
+            log.d { "Scroll button clicked." }
             startActivity<ScrollActivity>(this@MainActivity)
         }
 
         btnDatastore.setOnClickListener {
+            log.d { "Datastore button clicked." }
             startActivity<DataStoreActivity>(this@MainActivity)
         }
 
         scroll.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-//            logD("NMNMNMNXXXIUYIU") { "canScrollVertically(1): ${scroll.canScrollVertically(1)}, canScrollVertically(-1): ${scroll.canScrollVertically(-1)}" }
+            log.d { "canScrollVertically(1): ${scroll.canScrollVertically(1)}, canScrollVertically(-1): ${scroll.canScrollVertically(-1)}" }
         }
 
         scroll.setOnTouchListener { v, event ->
-//            logd("NMNMNMNXXXIUYIU") { "canScrollVertically(1): ${scroll.canScrollVertically(1)}, canScrollVertically(-1): ${scroll.canScrollVertically(-1)}" }
+            log.d { "canScrollVertically(1): ${scroll.canScrollVertically(1)}, canScrollVertically(-1): ${scroll.canScrollVertically(-1)}" }
             false
         }
 
@@ -124,6 +144,7 @@ class MainActivity : AppCompatActivity() {
         val h3 = H("cccccc")
         val h4 = H("dddddd")
         val h5 = H("eeeeee")
+        log.d { "Test function called with H instances." }
     }
 
     data class H(val a: String = "")
@@ -132,11 +153,13 @@ class MainActivity : AppCompatActivity() {
     fun getH() = flow {
         delay(2000)
         emit(H("aaaaaa"))
+        log.d { "getH flow emitted a value." }
     }
 
     suspend fun getO(): O {
         return withContext(Dispatchers.IO) {
             delay(1000)
+            log.d { "getO suspend function returning O(1)." }
             O(1)
         }
     }

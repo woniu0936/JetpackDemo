@@ -6,7 +6,7 @@ import android.view.View
 import androidx.core.view.ViewCompat.NestedScrollType
 import androidx.core.view.ViewCompat.ScrollAxis
 import androidx.core.widget.NestedScrollView
-import com.demo.jetpack.core.extension.logD
+import com.demo.core.logger.logD
 
 /**
  * 原理参见：https://blog.csdn.net/lmj623565791/article/details/52204039

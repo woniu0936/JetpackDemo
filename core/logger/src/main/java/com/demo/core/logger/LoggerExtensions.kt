@@ -1,5 +1,8 @@
 package com.demo.core.logger
 
+@PublishedApi
+internal val TAG = "logger"
+
 /**
  * 为任意 [Any] 对象提供一个方便的扩展函数，用于获取与其类名关联的 [Logger] 实例。
  * 推荐在 Kotlin 中使用此方法，通过 `by lazy` 委托属性来延迟初始化日志器。
@@ -37,7 +40,7 @@ fun Any.logger(): Logger {
  * logV("Network", { "请求 URL: $url" })
  * ```
  */
-fun logV(tag: String, message: () -> String) = AppLogger.getLogger(tag).v(message)
+fun logV(tag: String = TAG, message: () -> String) = AppLogger.getLogger(tag).v(message)
 
 /**
  * 记录调试（Debug）级别的顶层日志信息。
@@ -52,7 +55,7 @@ fun logV(tag: String, message: () -> String) = AppLogger.getLogger(tag).v(messag
  * logD("Database", { "查询结果: $count 条记录" })
  * ```
  */
-fun logD(tag: String, message: () -> String) = AppLogger.getLogger(tag).d(message)
+fun logD(tag: String = TAG, message: () -> String) = AppLogger.getLogger(tag).d(message)
 
 /**
  * 记录信息（Info）级别的顶层日志信息。
@@ -67,7 +70,7 @@ fun logD(tag: String, message: () -> String) = AppLogger.getLogger(tag).d(messag
  * logI("Lifecycle", { "Activity 'MainActivity' 已创建。" })
  * ```
  */
-fun logI(tag: String, message: () -> String) = AppLogger.getLogger(tag).i(message)
+fun logI(tag: String = TAG, message: () -> String) = AppLogger.getLogger(tag).i(message)
 
 /**
  * 记录警告（Warning）级别的顶层日志信息。
@@ -91,7 +94,7 @@ fun logI(tag: String, message: () -> String) = AppLogger.getLogger(tag).i(messag
  * }
  * ```
  */
-fun logW(tag: String, throwable: Throwable? = null, message: () -> String) {
+fun logW(tag: String = TAG, throwable: Throwable? = null, message: () -> String) {
     if (throwable != null) {
         AppLogger.getLogger(tag).w(throwable, message)
     } else {
@@ -121,7 +124,7 @@ fun logW(tag: String, throwable: Throwable? = null, message: () -> String) {
  * }
  * ```
  */
-fun logE(tag: String, throwable: Throwable? = null, message: () -> String) {
+fun logE(tag: String = TAG, throwable: Throwable? = null, message: () -> String) {
     if (throwable != null) {
         AppLogger.getLogger(tag).e(throwable, message)
     } else {
@@ -157,7 +160,7 @@ fun logE(tag: String, throwable: Throwable? = null, message: () -> String) {
  * }
  * ```
  */
-inline fun <T> trace(tag: String, block: () -> T): T {
+inline fun <T> trace(tag: String = TAG, block: () -> T): T {
     // 此调用是内联的。在发布版本中，它会直接调用空的 `traceInternal`，
     // 然后 `traceInternal` 也会被内联，最终只执行 `block`。
     return AppLogger.trace(tag, block)

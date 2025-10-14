@@ -1,19 +1,15 @@
 package com.demo.jetpack.common.dataflow
 
-import com.demo.jetpack.core.extension.logD
-import com.demo.jetpack.core.extension.logE
-import com.demo.jetpack.core.extension.logW
+import com.demo.core.logger.logD
+import com.demo.core.logger.logE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 import kotlin.coroutines.cancellation.CancellationException
 
 /**
@@ -187,6 +183,7 @@ inline fun <T : Any> dataStateCacheFirstFlow(
                     // 发射成功状态
                     send(DataState.Success(data))
                 }
+
                 !shouldFetch && initialData == null -> {
                     // 特殊情况：本地一开始就为空，且策略不允许远程获取，此时应发射 Empty
                     send(DataState.Empty)

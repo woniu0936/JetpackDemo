@@ -1,6 +1,6 @@
 package com.demo.jetpack.hilt
 
-import com.demo.jetpack.core.extension.logD
+import com.demo.core.logger.logD
 import javax.inject.Inject
 
 class ElectricEngine @Inject constructor() : Engine {

@@ -12,6 +12,7 @@ import com.demo.jetpack.core.util.NetworkMonitor
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.demo.core.logger.logger // Add this import
 
 @Singleton
 class Repository @Inject constructor(
@@ -20,12 +21,15 @@ class Repository @Inject constructor(
     private val networkMonitor: NetworkMonitor
 ) {
 
+    private val log by lazy { logger() } // Add logger instance
+
     companion object {
         private const val PAGE_SIZE = 50
     }
 
     @OptIn(ExperimentalPagingApi::class)
     fun getPagingData(): Flow<PagingData<Repo>> {
+        log.d { "Getting PagingData." }
         val pagingSourceFactory = { database.repoDao().getAllRepos() }
         return Pager(
             config = PagingConfig(
@@ -42,6 +46,7 @@ class Repository @Inject constructor(
     }
 
     suspend fun deleteRepos(repoIds: Set<Int>) {
+        log.d { "Deleting repos with IDs: $repoIds" }
         database.repoDao().deleteRepos(repoIds)
     }
 }

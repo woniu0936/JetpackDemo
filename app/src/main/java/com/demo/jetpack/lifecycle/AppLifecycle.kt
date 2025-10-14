@@ -4,7 +4,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.demo.jetpack.core.extension.logD
+import com.demo.core.logger.logD
 
 //监听app前后台
 object AppLifecycle : DefaultLifecycleObserver {

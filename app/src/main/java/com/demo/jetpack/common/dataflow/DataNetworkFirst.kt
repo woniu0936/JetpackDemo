@@ -1,8 +1,8 @@
 package com.demo.jetpack.common.dataflow
 
-import com.demo.jetpack.core.extension.logD
-import com.demo.jetpack.core.extension.logE
-import com.demo.jetpack.core.extension.logW
+import com.demo.core.logger.logD
+import com.demo.core.logger.logE
+import com.demo.core.logger.logW
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow

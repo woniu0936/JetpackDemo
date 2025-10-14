@@ -2,7 +2,7 @@ package com.demo.jetpack.lifecycle
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.demo.jetpack.core.extension.logD
+import com.demo.core.logger.logD
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 

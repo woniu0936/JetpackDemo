@@ -3,7 +3,7 @@ package com.demo.jetpack.lifecycle
 import android.animation.ValueAnimator
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.demo.jetpack.core.extension.logD
+import com.demo.core.logger.logD
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

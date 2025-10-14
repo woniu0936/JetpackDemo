@@ -1,6 +1,6 @@
 package com.demo.jetpack.common.dataflow
 
-import com.demo.jetpack.core.extension.logD
+import com.demo.core.logger.logD
 import java.util.UUID
 import com.demo.jetpack.BuildConfig
 
