@@ -16,14 +16,14 @@ class DemoApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        //可以用来做前后台监听
-        ProcessLifecycleOwner.get().lifecycle.addObserver(AppLifecycle)
-        Mavericks.initialize(this)
         AppLogger.init(this) {
             // 在这里可以配置 AppLogger，例如启用文件日志、设置日志保留天数等
             // enableFileLogging(true)
             // retentionDays(7)
         }
+        //可以用来做前后台监听
+        ProcessLifecycleOwner.get().lifecycle.addObserver(AppLifecycle)
+        Mavericks.initialize(this)
         CrashManager.init(this) {
             onCrash { _ ->
                 // 在应用崩溃时，强制刷新所有缓冲的日志到磁盘
