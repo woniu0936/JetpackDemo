@@ -1,5 +1,4 @@
-package com.demo.core.view
-
+package com.demo.core.view.base
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding

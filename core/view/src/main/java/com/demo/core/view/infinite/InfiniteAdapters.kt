@@ -1,10 +1,10 @@
-package com.demo.core.view
+package com.demo.core.view.infinite
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import kotlin.collections.get
+import com.demo.core.view.base.BindingViewHolder
 
 /**
  * **【基础版】无限循环适配器**

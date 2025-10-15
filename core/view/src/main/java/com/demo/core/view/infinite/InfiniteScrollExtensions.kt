@@ -1,4 +1,4 @@
-package com.demo.core.view
+package com.demo.core.view.infinite
 
 
 import android.content.Context
@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.demo.core.logger.logD
 import com.demo.core.logger.logI
 import com.demo.core.logger.logW
+import com.demo.core.view.R
 import kotlin.math.abs
 
 private const val LOG_TAG = "InfiniteScrollExt"

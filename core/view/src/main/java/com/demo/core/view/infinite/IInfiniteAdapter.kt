@@ -1,4 +1,4 @@
-package com.demo.core.view
+package com.demo.core.view.infinite
 
 /**
  * 定义了无限循环适配器必须具备的核心能力。

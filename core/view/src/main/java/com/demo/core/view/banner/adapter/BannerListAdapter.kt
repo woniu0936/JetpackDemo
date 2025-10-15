@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.demo.core.view.BindingViewHolder
+import com.demo.core.view.base.BindingViewHolder
 
 /**
  * [BannerView] 的高性能抽象适配器，基于 [ListAdapter]。

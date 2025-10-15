@@ -1,4 +1,4 @@
-package com.demo.core.view
+package com.demo.core.view.infinite
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.demo.core.view.base.BindingViewHolder
 
 /**
  * **【高性能版】无限循环列表适配器**

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.demo.core.view.BindingViewHolder
+import com.demo.core.view.base.BindingViewHolder
 
 /**
  * BannerView 的基础抽象适配器，基于 [RecyclerView.Adapter]。
