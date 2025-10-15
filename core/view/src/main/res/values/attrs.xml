@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+        为我们的自定义 BannerView 定义可配置的 XML 属性。
+        这允许开发者直接在布局文件中定制 Banner 的行为。
+    -->
+    <declare-styleable name="BannerView">
+
+        <!--
+            自动轮播时，每个页面静止停留的时长，单位为毫秒。
+            对应 BannerView.autoLoopIntervalMillis 属性。
+            默认值: 3000
+        -->
+        <attr name="banner_loopTime" format="integer" />
+
+        <!--
+            是否启用自动循环播放。
+            对应 BannerView.isAutoLoopEnabled 属性。
+            默认值: true
+        -->
+        <attr name="banner_isAutoLoop" format="boolean" />
+
+        <!--
+            页面之间切换滚动的动画时长，单位为毫秒。
+            注意：这是一个为未来扩展保留的属性。
+            对应 BannerView.scrollAnimationDurationMillis 属性。
+        -->
+        <attr name="banner_scrollTime" format="integer" />
+
+        <!--
+            ViewPager2 在可见页面两侧预加载的页面数量。
+            对应 BannerView.offscreenPageLimit 属性。
+            默认值: 1
+        -->
+        <attr name="banner_offscreenPageLimit" format="integer" />
+
+        <!--
+            设置一个内置的页面过渡动画效果。
+            对应 BannerView.setPageTransformer() 方法。
+        -->
+        <attr name="banner_transformer" format="enum">
+            <!-- 画廊/廊模式效果 -->
+            <enum name="gallery" value="0" />
+            <!-- 缩放效果 -->
+            <enum name="scale" value="1" />
+        </attr>
+
+    </declare-styleable>
+
+</resources>

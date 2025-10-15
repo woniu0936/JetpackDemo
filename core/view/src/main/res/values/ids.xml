@@ -2,4 +2,5 @@
 <resources>
     <!-- 用于在 ViewPager2/RecyclerView 实例上标记其无限滚动初始位置是否已设置 -->
     <item name="infinite_scroll_initial_position_set" type="id" />
+    <item name="banner_internal_callback_tag" type="id" />
 </resources>
