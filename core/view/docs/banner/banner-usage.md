@@ -1,13 +1,10 @@
+# BannerView 库 - 快速上手指南 (使用文档)
 
----
-
-## **BannerView 库 - 快速上手指南**
-
-### **1. 简介**
+## 1. 简介
 
 `BannerView` 是一个功能强大、高度可定制且生命周期安全的商业级 Banner 组件。它旨在以最简洁的 API 提供最稳定、最丰富的 Banner 功能。
 
-**核心特性:**
+### 核心特性:
 
 *   **无限循环**：基于 UI 处理的无缝循环方案，专为 Banner 场景优化。
 *   **自动播放**：支持自定义间隔时间的自动轮播，并能在用户触摸时智能暂停。
@@ -19,13 +16,13 @@
 *   **可插拔的过渡动画**：内置画廊、缩放等多种 `PageTransformer`，并允许自定义。
 *   **流畅的 API 设计**：支持链式调用和 Kotlin 作用域函数，提供极致的开发体验。
 
-### **2. 快速集成**
+## 2. 快速集成
 
-#### **第一步：添加源码**
+### 第一步：添加源码
 
 将本库的 `com/yourcompany/banner/` 目录下的所有源码文件复制到你的项目中。
 
-#### **第二步：添加资源文件**
+### 第二步：添加资源文件
 
 在你的主模块（或库模块）的 `res/values/` 目录下，确保有以下两个文件：
 
@@ -54,11 +51,11 @@
 </resources>
 ```
 
-### **3. 基础用法**
+## 3. 基础用法
 
 这是最快让 Banner 跑起来的方式。
 
-#### **第一步：在 XML 布局中添加 BannerView**
+### 第一步：在 XML 布局中添加 BannerView
 
 ```xml
 <com.yourcompany.banner.BannerView
@@ -69,7 +66,7 @@
     app:banner_loopTime="3000" />
 ```
 
-#### **第二步：创建适配器并绑定数据**
+### 第二步：创建适配器并绑定数据
 
 假设你的数据是一个 `String` 列表（图片 URL）。
 
@@ -111,9 +108,9 @@
     }
     ```
 
-### **4. 核心概念详解**
+## 4. 核心概念详解
 
-#### **4.1 两种适配器模式**
+### 4.1 两种适配器模式
 
 你可以根据场景选择最合适的适配器。
 
@@ -136,7 +133,7 @@
     ```
 
 *   **`BannerListAdapter` (高性能适配器)**
-    适用于数据动态变化（如来自网络请求、用户操作增删）的场景。它基于 `DiffUtil`，可以实现高效的局部刷新和动画。
+    适用于数据动态变化（如来自网络请求、用户操作增删）的场景。它基于 `DiffUtil`，可以实现高效的局部刷新和优雅的动画效果。
 
     **@example: 创建一个 ListAdapter**
     ```kotlin
@@ -155,7 +152,7 @@
     listAdapter.submitList(listOf(BannerItem("1", "url1")))
     ```
 
-#### **4.2 指示器 (Indicator)**
+### 4.2 指示器 (Indicator)
 
 `BannerView` 支持添加任意自定义指示器。
 
@@ -175,7 +172,7 @@
 *   **自定义指示器**
     只需实现 `Indicator` 接口，并重写 `getIndicatorView()` 和 `onPageChanged()` 方法即可。
 
-#### **4.3 页面过渡动画 (PageTransformer)**
+### 4.3 页面过渡动画 (PageTransformer)
 
 为 Banner 切换添加炫酷的视觉效果。
 
@@ -195,9 +192,9 @@
 *   **自定义动画**
     只需实现 `BannerPageTransformer` 接口（即 `ViewPager2.PageTransformer`）即可。
 
-### **5. 高级 API 和技巧**
+## 5. 高级 API 和技巧
 
-#### **5.1 链式调用与 `configure`**
+### 5.1 链式调用与 `configure`
 
 你可以将多个配置操作链接在一起，或使用 `configure` 作用域函数聚合它们，让代码更优雅。
 
@@ -214,7 +211,7 @@ bannerView.setAdapter(myAdapter)
     .attachToLifecycle(viewLifecycleOwner)
 ```
 
-#### **5.2 点击事件**
+### 5.2 点击事件
 
 为 Banner 的 Item 添加点击事件。
 
@@ -227,7 +224,7 @@ bannerView.setOnItemClickListener { data, realPosition ->
 }
 ```
 
-#### **5.3 直接提交数据**
+### 5.3 直接提交数据
 
 如果你不想保留 `Adapter` 的引用，可以直接在 `BannerView` 上提交数据。
 
@@ -240,19 +237,20 @@ viewModel.bannerData.observe(viewLifecycleOwner) { newData ->
 }
 ```
 
-### **6. XML 属性参考**
+## 6. XML 属性参考
 
 你可以在 XML 布局文件中直接配置以下属性：
 
 | 属性名 | 格式 | 描述 | 默认值 |
 | --- | --- | --- | --- |
-| `app:banner_isAutoLoop` | `boolean` | 是否自动循环播放 | `true` |
 | `app:banner_loopTime` | `integer` | 自动轮播的间隔时间 (毫秒) | `3000` |
+| `app:banner_isAutoLoop` | `boolean` | 是否自动循环播放 | `true` |
+| `app:banner_scrollTime` | `integer` | 自动轮播的滚动时间 (毫秒) | `800` |
 | `app:banner_offscreenPageLimit`| `integer` | 离屏预加载的页面数量 | `1` |
 | `app:banner_transformer` | `enum` | 内置的过渡动画 | `none` |
 | | `gallery` | 画廊效果 | |
 | | `scale` | 缩放效果 | |
 
----
+## 7. 总结
 
 这份文档涵盖了从入门到精通 `BannerView` 库的全部内容。希望能帮助你和你的团队轻松地在项目中集成并使用这个强大的组件。
