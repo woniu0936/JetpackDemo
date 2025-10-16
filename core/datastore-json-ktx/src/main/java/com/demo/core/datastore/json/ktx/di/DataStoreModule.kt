@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
-import com.demo.core.common.AppDispatchers
-import com.demo.core.common.ApplicationScope
-import com.demo.core.common.Dispatcher
+import com.demo.core.common.annotation.AppDispatchers
+import com.demo.core.common.annotation.ApplicationScope
+import com.demo.core.common.annotation.Dispatcher
 import com.demo.core.datastore.json.ktx.User
 import com.demo.core.datastore.json.ktx.serializer.UserSerializer
 import dagger.Module

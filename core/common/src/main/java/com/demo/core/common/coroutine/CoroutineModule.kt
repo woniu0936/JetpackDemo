@@ -1,5 +1,8 @@
-package com.demo.core.common
+package com.demo.core.common.coroutine
 
+import com.demo.core.common.annotation.AppDispatchers
+import com.demo.core.common.annotation.ApplicationScope
+import com.demo.core.common.annotation.Dispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

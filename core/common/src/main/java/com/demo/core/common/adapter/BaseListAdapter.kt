@@ -1,4 +1,4 @@
-package com.demo.core.common
+package com.demo.core.common.adapter
 
 import android.view.LayoutInflater
 import android.view.View

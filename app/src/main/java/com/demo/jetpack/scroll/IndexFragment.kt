@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.demo.core.common.BaseAdapter
+import com.demo.core.common.adapter.BaseAdapter
 import com.demo.jetpack.R
 import com.demo.jetpack.core.extension.viewBinding
 import com.demo.jetpack.databinding.FragmentIndexBinding

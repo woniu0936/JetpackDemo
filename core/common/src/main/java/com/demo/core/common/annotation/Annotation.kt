@@ -1,7 +1,6 @@
-package com.demo.core.common
+package com.demo.core.common.annotation
 
 import javax.inject.Qualifier
-import javax.inject.Scope
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)

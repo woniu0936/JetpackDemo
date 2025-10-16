@@ -3,7 +3,7 @@ package com.demo.jetpack.viewpager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.demo.core.common.BaseAdapter
+import com.demo.core.common.adapter.BaseAdapter
 import com.demo.jetpack.R
 import com.demo.jetpack.core.extension.viewBindings
 import com.demo.jetpack.databinding.ActivityViewPager2Binding
