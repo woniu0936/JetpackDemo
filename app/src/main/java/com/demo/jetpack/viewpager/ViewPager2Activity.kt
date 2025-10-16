@@ -1,12 +1,10 @@
 package com.demo.jetpack.viewpager
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.demo.core.common.BaseAdapter
 import com.demo.jetpack.R
-import com.demo.jetpack.common.BaseAdapter
 import com.demo.jetpack.core.extension.viewBindings
 import com.demo.jetpack.databinding.ActivityViewPager2Binding
 import com.demo.jetpack.databinding.ItemViewPager2Binding
@@ -59,7 +57,7 @@ class ViewPager2Activity : AppCompatActivity() {
                 clipToPadding = false
             }
         }
-        mAdapter.submitList(defaultList())
+        mAdapter.setData(defaultList())
     }
 
     private fun defaultList(): List<String> {
@@ -81,11 +79,7 @@ val colorsRes = listOf(
     R.color.color_fd803a
 )
 
-class ViewPagerAdapter : BaseAdapter<String, ItemViewPager2Binding>() {
-
-    override fun onCreateBinding(inflater: LayoutInflater, parent: ViewGroup): ItemViewPager2Binding {
-        return ItemViewPager2Binding.inflate(inflater, parent, false)
-    }
+class ViewPagerAdapter : BaseAdapter<String, ItemViewPager2Binding>(ItemViewPager2Binding::inflate) {
 
     override fun ItemViewPager2Binding.onBindView(item: String, position: Int) {
         tvIndex.text = item

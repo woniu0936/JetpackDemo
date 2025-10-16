@@ -1,20 +1,14 @@
 package com.demo.jetpack.scroll
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import com.demo.core.common.BaseAdapter
 import com.demo.jetpack.R
-import com.demo.jetpack.common.BaseAdapter
-import com.demo.jetpack.common.BaseListAdapter
 import com.demo.jetpack.core.extension.viewBinding
 import com.demo.jetpack.databinding.FragmentIndexBinding
 import com.demo.jetpack.databinding.ItemIndexFragmentBinding
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class IndexFragment : Fragment(R.layout.fragment_index) {
 
@@ -33,7 +27,7 @@ class IndexFragment : Fragment(R.layout.fragment_index) {
         val index = arguments?.getInt("index")
         val list = (0..100).map { "index: $index-item: $it" }
         val ada = Adapter()
-        ada.submitList(list)
+        ada.setData(list)
         mBinding.rv.adapter = ada
 //        mBinding.rv.setNestedScrollingEnabled(false);
 //        lifecycleScope.launch {
@@ -44,10 +38,7 @@ class IndexFragment : Fragment(R.layout.fragment_index) {
 //        }
     }
 
-    class Adapter : BaseAdapter<String, ItemIndexFragmentBinding>() {
-        override fun onCreateBinding(inflater: LayoutInflater, parent: ViewGroup): ItemIndexFragmentBinding {
-            return ItemIndexFragmentBinding.inflate(inflater, parent, false)
-        }
+    class Adapter : BaseAdapter<String, ItemIndexFragmentBinding>(ItemIndexFragmentBinding::inflate) {
 
         override fun ItemIndexFragmentBinding.onBindView(item: String, position: Int) {
             tvContent.text = item
