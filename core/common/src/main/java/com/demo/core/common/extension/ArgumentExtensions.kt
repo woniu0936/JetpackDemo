@@ -1,6 +1,7 @@
 package com.demo.core.common.extension
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -532,7 +533,222 @@ inline fun <reified T : Parcelable> Bundle?.optParcelableArray(key: String): Arr
         if (Build.VERSION.SDK_INT >= 33) {
             getParcelableArray(key, T::class.java) as? Array<T>
         } else {
-            getParcelableArray(key)?.mapNotNull { it as? T }?.toTypedArray()
+            // 这是保证类型安全的、最地道的 Kotlin 写法。
+            // 直接强转 as? Array<T> 会因数组类型不匹配而失败返回 null。
+            getParcelableArray(key)?.filterIsInstance<T>()?.toTypedArray()
+        }
+    }
+}
+
+
+// ##################################################################
+// ### Intent? 底层扩展 (Low-level Intent? Extensions)
+// ##################################################################
+
+// --- 基础类型 ---
+fun Intent?.optString(key: String, defaultValue: String = ""): String = this?.getStringExtra(key) ?: defaultValue
+fun Intent?.optInt(key: String, defaultValue: Int = 0): Int = this?.getIntExtra(key, defaultValue) ?: defaultValue
+fun Intent?.optLong(key: String, defaultValue: Long = 0L): Long = this?.getLongExtra(key, defaultValue) ?: defaultValue
+fun Intent?.optBoolean(key: String, defaultValue: Boolean = false): Boolean = this?.getBooleanExtra(key, defaultValue) ?: defaultValue
+fun Intent?.optFloat(key: String, defaultValue: Float = 0f): Float = this?.getFloatExtra(key, defaultValue) ?: defaultValue
+fun Intent?.optDouble(key: String, defaultValue: Double = 0.0): Double = this?.getDoubleExtra(key, defaultValue) ?: defaultValue
+fun Intent?.optByte(key: String, defaultValue: Byte = 0): Byte = this?.getByteExtra(key, defaultValue) ?: defaultValue
+fun Intent?.optChar(key: String, defaultValue: Char = '\u0000'): Char = this?.getCharExtra(key, defaultValue) ?: defaultValue
+fun Intent?.optShort(key: String, defaultValue: Short = 0): Short = this?.getShortExtra(key, defaultValue) ?: defaultValue
+fun Intent?.optCharSequence(key: String, defaultValue: CharSequence = ""): CharSequence = this?.getCharSequenceExtra(key) ?: defaultValue
+
+// --- 数组类型 ---
+fun Intent?.optStringArray(key: String): Array<String>? = this?.getStringArrayExtra(key)
+fun Intent?.optIntArray(key: String): IntArray? = this?.getIntArrayExtra(key)
+fun Intent?.optLongArray(key: String): LongArray? = this?.getLongArrayExtra(key)
+fun Intent?.optBooleanArray(key: String): BooleanArray? = this?.getBooleanArrayExtra(key)
+fun Intent?.optFloatArray(key: String): FloatArray? = this?.getFloatArrayExtra(key)
+fun Intent?.optDoubleArray(key: String): DoubleArray? = this?.getDoubleArrayExtra(key)
+fun Intent?.optByteArray(key: String): ByteArray? = this?.getByteArrayExtra(key)
+fun Intent?.optCharArray(key: String): CharArray? = this?.getCharArrayExtra(key)
+fun Intent?.optShortArray(key: String): ShortArray? = this?.getShortArrayExtra(key)
+fun Intent?.optCharSequenceArray(key: String): Array<out CharSequence>? = this?.getCharSequenceArrayExtra(key)
+
+// --- 列表类型 ---
+fun Intent?.optStringArrayList(key: String): ArrayList<String>? = this?.getStringArrayListExtra(key)
+fun Intent?.optIntegerArrayList(key: String): ArrayList<Int>? = this?.getIntegerArrayListExtra(key)
+fun Intent?.optCharSequenceArrayList(key: String): ArrayList<CharSequence>? = this?.getCharSequenceArrayListExtra(key)
+
+// --- 特殊类型 (Serializable, Parcelable) - 已加固 ---
+/**
+ * 安全地从 `Intent` 中获取一个可空的 `Serializable` 对象。
+ *
+ * 此扩展函数处理了 Android 13 (API 33) 引入的 `getSerializableExtra(key, Class)` 方法，
+ * 并在旧版本上回退到 `getSerializableExtra(key)` 并进行类型转换，确保了编译期安全和运行时兼容性。
+ *
+ * @param key 要检索的 `Serializable` 对象的键。
+ * @return 如果 `Intent` 存在且包含指定键的 `Serializable` 对象，并且类型匹配，则返回该对象；否则返回 `null`。
+ *
+ * @example
+ * ```kotlin
+ * // 假设 User 是一个实现了 Serializable 接口的数据类
+ * data class User(val id: String, val name: String) : Serializable
+ *
+ * fun processIntent(intent: Intent?) {
+ *     val user: User? = intent.optSerializable("KEY_USER")
+ *     user?.let {
+ *         Log.d("IntentExt", "Retrieved user: ${it.name}")
+ *     } ?: Log.w("IntentExt", "User not found in intent or invalid type.")
+ * }
+ *
+ * // 如何放入 Intent
+ * val user = User("123", "Alice")
+ * val intent = Intent().apply {
+ *     putExtra("KEY_USER", user)
+ * }
+ * processIntent(intent)
+ * ```
+ */
+@Suppress("DEPRECATION")
+inline fun <reified T : Serializable> Intent?.optSerializable(key: String): T? {
+    return this?.let {
+        if (Build.VERSION.SDK_INT >= 33) {
+            getSerializableExtra(key, T::class.java)
+        } else {
+            getSerializableExtra(key) as? T
+        }
+    }
+}
+
+/**
+ * 安全地从 `Intent` 中获取一个可空的 `Parcelable` 对象。
+ *
+ * 此扩展函数处理了 Android 13 (API 33) 引入的 `getParcelableExtra(key, Class)` 方法，
+ * 并在旧版本上回退到 `getParcelableExtra(key)`，确保了编译期安全和运行时兼容性。
+ *
+ * @param key 要检索的 `Parcelable` 对象的键。
+ * @return 如果 `Intent` 存在且包含指定键的 `Parcelable` 对象，并且类型匹配，则返回该对象；否则返回 `null`。
+ *
+ * @example
+ * ```kotlin
+ * // 假设 Product 是一个实现了 Parcelable 接口的数据类
+ * data class Product(val id: String, val name: String) : Parcelable {
+ *     override fun describeContents(): Int = 0
+ *     override fun writeToParcel(dest: Parcel, flags: Int) { /* ... */ }
+ *     companion object CREATOR : Parcelable.Creator<Product> { /* ... */ }
+ * }
+ *
+ * fun processIntent(intent: Intent?) {
+ *     val product: Product? = intent.optParcelable("KEY_PRODUCT")
+ *     product?.let {
+ *         Log.d("IntentExt", "Retrieved product: ${it.name}")
+ *     } ?: Log.w("IntentExt", "Product not found in intent or invalid type.")
+ * }
+ *
+ * // 如何放入 Intent
+ * val product = Product("p1", "Laptop")
+ * val intent = Intent().apply {
+ *     putExtra("KEY_PRODUCT", product)
+ * }
+ * processIntent(intent)
+ * ```
+ */
+@Suppress("DEPRECATION")
+inline fun <reified T : Parcelable> Intent?.optParcelable(key: String): T? {
+    return this?.let {
+        if (Build.VERSION.SDK_INT >= 33) {
+            getParcelableExtra(key, T::class.java)
+        } else {
+            getParcelableExtra(key)
+        }
+    }
+}
+
+/**
+ * 安全地从 `Intent` 中获取一个可空的 `Parcelable` 对象列表 (`ArrayList<T>`)。
+ *
+ * 此扩展函数处理了 Android 13 (API 33) 引入的 `getParcelableArrayListExtra(key, Class)` 方法，
+ * 并在旧版本上回退到 `getParcelableArrayListExtra(key)`，确保了编译期安全和运行时兼容性。
+ *
+ * @param key 要检索的 `Parcelable` 对象列表的键。
+ * @return 如果 `Intent` 存在且包含指定键的 `Parcelable` 对象列表，并且类型匹配，则返回该列表；否则返回 `null`。
+ *
+ * @example
+ * ```kotlin
+ * // 假设 Item 是一个实现了 Parcelable 接口的数据类
+ * data class Item(val id: String, val name: String) : Parcelable {
+ *     override fun describeContents(): Int = 0
+ *     override fun writeToParcel(dest: Parcel, flags: Int) { /* ... */ }
+ *     companion object CREATOR : Parcelable.Creator<Item> { /* ... */ }
+ * }
+ *
+ * fun processIntent(intent: Intent?) {
+ *     val items: ArrayList<Item>? = intent.optParcelableArrayList("KEY_ITEMS")
+ *     items?.let {
+ *         Log.d("IntentExt", "Retrieved ${it.size} items.")
+ *         it.forEach { item -> Log.d("IntentExt", "Item: ${item.name}") }
+ *     } ?: Log.w("IntentExt", "Items list not found in intent or invalid type.")
+ * }
+ *
+ * // 如何放入 Intent
+ * val items = arrayListOf(Item("i1", "Pen"), Item("i2", "Book"))
+ * val intent = Intent().apply {
+ *     putParcelableArrayListExtra("KEY_ITEMS", items)
+ * }
+ * processIntent(intent)
+ * ```
+ */
+@Suppress("DEPRECATION")
+inline fun <reified T : Parcelable> Intent?.optParcelableArrayList(key: String): ArrayList<T>? {
+    return this?.let {
+        if (Build.VERSION.SDK_INT >= 33) {
+            getParcelableArrayListExtra(key, T::class.java)
+        } else {
+            getParcelableArrayListExtra(key)
+        }
+    }
+}
+
+/**
+ * 安全地从 `Intent` 中获取一个可空的 `Parcelable` 对象数组 (`Array<T>`)。
+ *
+ * 此扩展函数处理了 Android 13 (API 33) 引入的 `getParcelableArrayExtra(key, Class)` 方法，
+ * 并在旧版本上回退到 `getParcelableArrayExtra(key)` 并进行类型转换，确保了编译期安全和运行时兼容性。
+ *
+ * **性能优化**：在旧版本 (API < 33) 上，通过直接强转避免了 `mapNotNull` 和 `toTypedArray` 带来的装箱和 GC 压力。
+ *
+ * @param key 要检索的 `Parcelable` 对象数组的键。
+ * @return 如果 `Intent` 存在且包含指定键的 `Parcelable` 对象数组，并且类型匹配，则返回该数组；否则返回 `null`。
+ *
+ * @example
+ * ```kotlin
+ * // 假设 DataPoint 是一个实现了 Parcelable 接口的数据类
+ * data class DataPoint(val x: Float, val y: Float) : Parcelable {
+ *     override fun describeContents(): Int = 0
+ *     override fun writeToParcel(dest: Parcel, flags: Int) { /* ... */ }
+ *     companion object CREATOR : Parcelable.Creator<DataPoint> { /* ... */ }
+ * }
+ *
+ * fun processIntent(intent: Intent?) {
+ *     val dataPoints: Array<DataPoint>? = intent.optParcelableArray("KEY_DATA_POINTS")
+ *     dataPoints?.let {
+ *         Log.d("IntentExt", "Retrieved ${it.size} data points.")
+ *         it.forEach { dp -> Log.d("IntentExt", "DataPoint: (${dp.x}, ${dp.y})") }
+ *     } ?: Log.w("IntentExt", "Data points array not found in intent or invalid type.")
+ * }
+ *
+ * // 如何放入 Intent
+ * val dataPoints = arrayOf(DataPoint(1.0f, 2.0f), DataPoint(3.0f, 4.0f))
+ * val intent = Intent().apply {
+ *     putParcelableArrayExtra("KEY_DATA_POINTS", dataPoints)
+ * }
+ * processIntent(intent)
+ * ```
+ */
+@Suppress("DEPRECATION", "UNCHECKED_CAST") // Suppress UNCHECKED_CAST for direct cast on older APIs
+inline fun <reified T : Parcelable> Intent?.optParcelableArray(key: String): Array<T>? {
+    return this?.let {
+        if (Build.VERSION.SDK_INT >= 33) {
+            getParcelableArrayExtra(key, T::class.java) as? Array<T>
+        } else {
+            // 这是保证类型安全的、最地道的 Kotlin 写法。
+            // 直接强转 as? Array<T> 会因数组类型不匹配而失败返回 null。
+            getParcelableArrayExtra(key)?.filterIsInstance<T>()?.toTypedArray()
         }
     }
 }
