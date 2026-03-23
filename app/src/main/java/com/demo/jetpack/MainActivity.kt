@@ -28,6 +28,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import com.demo.core.logger.logger // Add this import
+import com.demo.core.common.shake.registerShakeDetector
 
 class MainActivity : AppCompatActivity() {
 
@@ -134,6 +135,10 @@ class MainActivity : AppCompatActivity() {
         scroll.setOnTouchListener { v, event ->
             log.d { "canScrollVertically(1): ${scroll.canScrollVertically(1)}, canScrollVertically(-1): ${scroll.canScrollVertically(-1)}" }
             false
+        }
+
+        registerShakeDetector {
+            log.d { "shake detector success" }
         }
 
     }
