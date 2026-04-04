@@ -97,7 +97,9 @@ class MultiTypeAdapter private constructor(
         val inflater = LayoutInflater.from(parent.context)
         // 直接利用传入的方法引用实例化 ViewBinding
         val binding = binder.inflate(inflater, parent, false)
-        return BindingViewHolder(binding)
+        val holder =  BindingViewHolder(binding)
+        binder.setupItemClicks(holder)
+        return holder
     }
 
     // 处理全量刷新
@@ -118,6 +120,13 @@ class MultiTypeAdapter private constructor(
         } else {
             binder(holder.binding, getItem(position), payloads)
         }
+    }
+
+    fun getItemSafely(position: Int): Any? {
+        if (position == RecyclerView.NO_POSITION || position < 0 || position >= itemCount) {
+            return null
+        }
+        return getItem(position)   // 这里在 MultiTypeAdapter 内部，可以访问 protected getItem
     }
 
     // 提供给 MultiTypeDiffCallback 内部使用
@@ -150,4 +159,5 @@ class MultiTypeAdapter private constructor(
             return binder.getChangePayload(oldItem, newItem)
         }
     }
+
 }
