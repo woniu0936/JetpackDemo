@@ -94,7 +94,7 @@ abstract class BaseAdapter<T, VB : ViewBinding>(
         payloads: MutableList<Any>
     ) {
         if (payloads.isEmpty()) {
-            super.onBindViewHolder(holder, position, payloads)
+            onBindViewHolder(holder, position)
         } else {
             getItem(position)?.let { item ->
                 holder.binding.onBindView(item, position, payloads)
