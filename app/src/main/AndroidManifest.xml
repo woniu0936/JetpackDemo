@@ -85,6 +85,9 @@
         <activity
             android:name=".datastore.DataStoreActivity"
             android:exported="true" />
+        <activity
+            android:name=".adapter.BaseListAdapterActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
