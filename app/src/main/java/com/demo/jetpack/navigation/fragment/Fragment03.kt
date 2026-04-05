@@ -11,7 +11,7 @@ import com.demo.jetpack.databinding.FragmentNavigation03Binding
 
 class Fragment03 : Fragment(R.layout.fragment_navigation_03) {
 
-    private val mBinding: FragmentNavigation03Binding by viewBinding()
+    private val mBinding: FragmentNavigation03Binding by viewBinding(FragmentNavigation03Binding::bind)
     private val navArgs: Fragment03Args by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

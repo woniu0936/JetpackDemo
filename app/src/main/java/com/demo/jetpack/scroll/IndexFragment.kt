@@ -12,6 +12,8 @@ import com.demo.jetpack.databinding.ItemIndexFragmentBinding
 
 class IndexFragment : Fragment(R.layout.fragment_index) {
 
+    private val mBinding: FragmentIndexBinding by viewBinding(FragmentIndexBinding::bind)
+
     companion object {
         fun newInstance(index: Int): IndexFragment {
             return IndexFragment().apply {
@@ -19,8 +21,6 @@ class IndexFragment : Fragment(R.layout.fragment_index) {
             }
         }
     }
-
-    private val mBinding: FragmentIndexBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

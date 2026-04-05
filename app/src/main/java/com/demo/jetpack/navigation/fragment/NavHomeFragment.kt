@@ -16,7 +16,7 @@ class NavHomeFragment : Fragment(R.layout.fragment_nav_home) {
 
     private val TAG = NavHomeFragment::class.java.simpleName
 
-    private val mBinding: FragmentNavHomeBinding by viewBinding()
+    private val mBinding: FragmentNavHomeBinding by viewBinding(FragmentNavHomeBinding::bind)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         logD(TAG) { "------------------------------onCreateView-----------------------------" }

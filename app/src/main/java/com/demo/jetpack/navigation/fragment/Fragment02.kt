@@ -10,7 +10,7 @@ import com.demo.jetpack.databinding.FragmentNavigation02Binding
 
 class Fragment02 : Fragment(R.layout.fragment_navigation_02) {
 
-    private val mBinding: FragmentNavigation02Binding by viewBinding()
+    private val mBinding: FragmentNavigation02Binding by viewBinding(FragmentNavigation02Binding::bind)
     private val param by lazy { arguments?.getString("param") }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

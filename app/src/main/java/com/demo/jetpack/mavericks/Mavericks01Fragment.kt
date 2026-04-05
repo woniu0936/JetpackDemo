@@ -17,7 +17,7 @@ import com.demo.jetpack.core.extension.viewBinding
 class Mavericks01Fragment : Fragment(R.layout.fragment_mavericks_demo_01), MavericksView {
 
     private val mViewModel: Mavericks01ViewModel by fragmentViewModel()
-    private val mBinding: FragmentMavericksDemo01Binding by viewBinding()
+    private val mBinding: FragmentMavericksDemo01Binding by viewBinding(FragmentMavericksDemo01Binding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
