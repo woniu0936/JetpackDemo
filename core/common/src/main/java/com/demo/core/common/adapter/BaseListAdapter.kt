@@ -87,12 +87,34 @@ abstract class BaseListAdapter<T : Any, VB : ViewBinding> private constructor(
 
 
     /**
-     * 【核心】子类必须实现此方法，以定义如何将数据绑定到视图。
+     * 【核心】全量绑定数据。
+     *
+     * 当以下情况发生时会被调用：
+     * 1. 列表项第一次进入屏幕。
+     * 2. 数据发生全量改变（未通过 payloads 局部刷新）。
+     * 3. 局部刷新失败或回退（Fallback）至此。
+     *
+     * @receiver ViewBinding 实例，直接操作视图控件。
+     * @param item 当前位置的数据模型。
+     * @param position 当前项在适配器中的位置。
      */
     abstract fun VB.onBindView(item: T, position: Int)
 
     /**
-     * (可选) 子类可以重写此方法，以处理局部刷新。
+     * 【性能优化】局部绑定数据（基于 payloads）。
+     *
+     * 当 DiffUtil 计算出特定的变化标识（Payload）时，会优先触发此方法以实现局部刷新，
+     * 从而避免全量刷新带来的开销（如图片闪烁、无效的 View 赋值）。
+     *
+     * ### 🌟 重要使用规范：
+     * 1. **处理逻辑**：检查 [payloads] 列表，根据标识仅更新特定的 View（如点赞按钮、进度条）。
+     * 2. **性能权衡**：如果你成功处理了所有的 payload，请 **【不要】** 调用 `super.onBindView`，
+     *    否则会紧接着触发一次全量刷新，导致局部刷新的优化失效。
+     * 3. **安全降级 (Fallback)**：如果你无法处理某些 payload，或者 payloads 为空，
+     *    请务必调用 `super.onBindView(item, position, payloads)` 或直接调用 [onBindView]。
+     *    基类的默认实现即为安全回退至全量刷新，确保 UI 与数据的一致性。
+     *
+     * @param payloads 变化标识列表，由 [getChangePayload] 生成并传递。
      */
     open fun VB.onBindView(item: T, position: Int, payloads: List<Any>) {
         onBindView(item, position)
