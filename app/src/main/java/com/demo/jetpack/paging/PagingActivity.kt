@@ -1,15 +1,13 @@
 package com.demo.jetpack.paging
 
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.demo.jetpack.core.extension.viewBindings
+import com.demo.jetpack.core.extension.viewBinding
 import com.demo.jetpack.databinding.ActivityDemoBinding
 import com.demo.jetpack.databinding.ActivityDemoBinding.inflate
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +18,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PagingActivity : AppCompatActivity() {
 
-    private val mBinding: ActivityDemoBinding by viewBindings(::inflate)
+    private val mBinding: ActivityDemoBinding by viewBinding(::inflate)
     private val mViewModel: PagingViewModel by viewModels()
 
     @Inject

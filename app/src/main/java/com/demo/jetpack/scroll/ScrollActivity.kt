@@ -1,20 +1,15 @@
 package com.demo.jetpack.scroll
 
-import android.graphics.Insets
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.util.Size
-import android.view.WindowInsets
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
-import com.demo.core.logger.logD
-import com.demo.jetpack.core.extension.viewBindings
+import com.demo.jetpack.core.extension.viewBinding
 import com.demo.jetpack.databinding.ActivityScrollBinding
 
 
@@ -22,7 +17,7 @@ var canScroll = true
 
 class ScrollActivity : AppCompatActivity() {
 
-    private val mBinding: ActivityScrollBinding by viewBindings(ActivityScrollBinding::inflate)
+    private val mBinding: ActivityScrollBinding by viewBinding(ActivityScrollBinding::inflate)
     private val mFragments by lazy { listOf(IndexFragment.newInstance(0), IndexFragment.newInstance(2), IndexFragment.newInstance(2)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {

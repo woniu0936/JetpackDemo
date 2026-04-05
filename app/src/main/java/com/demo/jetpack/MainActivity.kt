@@ -2,8 +2,11 @@ package com.demo.jetpack
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.demo.core.common.delegate.viewBinding
+import com.demo.core.common.shake.registerShakeDetector
+import com.demo.core.logger.logger
+import com.demo.jetpack.adapter.BaseListAdapterActivity
 import com.demo.jetpack.core.extension.startActivity
-import com.demo.jetpack.core.extension.viewBindings
 import com.demo.jetpack.databinding.ActivityMainBinding
 import com.demo.jetpack.databinding.ActivityMainBinding.inflate
 import com.demo.jetpack.datastore.DataStoreActivity
@@ -27,12 +30,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
-import com.demo.core.logger.logger // Add this import
-import com.demo.core.common.shake.registerShakeDetector
 
 class MainActivity : AppCompatActivity() {
 
-    private val mBinding: ActivityMainBinding by viewBindings(::inflate)
+    private val mBinding: ActivityMainBinding by viewBinding(::inflate)
     private val log by lazy { logger() } // Add logger instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,6 +127,11 @@ class MainActivity : AppCompatActivity() {
         btnDatastore.setOnClickListener {
             log.d { "Datastore button clicked." }
             startActivity<DataStoreActivity>(this@MainActivity)
+        }
+
+        btnBaseListAdapter.setOnClickListener {
+            log.d { "BaseListAdapter button clicked." }
+            startActivity<BaseListAdapterActivity>(this@MainActivity)
         }
 
         scroll.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->

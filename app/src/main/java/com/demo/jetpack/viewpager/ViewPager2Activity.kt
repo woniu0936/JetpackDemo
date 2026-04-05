@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.demo.core.common.adapter.BaseAdapter
 import com.demo.jetpack.R
-import com.demo.jetpack.core.extension.viewBindings
+import com.demo.jetpack.core.extension.viewBinding
 import com.demo.jetpack.databinding.ActivityViewPager2Binding
 import com.demo.jetpack.databinding.ItemViewPager2Binding
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ViewPager2Activity : AppCompatActivity() {
 
-    private val mBinding: ActivityViewPager2Binding by viewBindings(ActivityViewPager2Binding::inflate)
+    private val mBinding: ActivityViewPager2Binding by viewBinding(ActivityViewPager2Binding::inflate)
 
     @Inject
     lateinit var mGalleryTransformer: GalleryTransformer
