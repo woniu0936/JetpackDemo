@@ -94,11 +94,6 @@ class ListAdapterBuilder<T : Any, VB : ViewBinding> {
         onItemClickAction = { _, item, pos -> block(item, pos) }
     }
 
-    /** 点击事件 (带 View) */
-    fun onViewClick(block: (view: View, item: T, position: Int) -> Unit) {
-        onItemClickAction = block
-    }
-
     /** 长按事件 */
     fun onLongClick(block: (item: T, position: Int) -> Boolean) {
         onItemLongClickAction = { _, item, pos -> block(item, pos) }

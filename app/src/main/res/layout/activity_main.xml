@@ -207,7 +207,7 @@
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_scroll" />
+            app:layout_constraintTop_toBottomOf="@id/btn_datastore" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_MultiTypeAdapter"
@@ -218,7 +218,7 @@
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_scroll" />
+            app:layout_constraintTop_toBottomOf="@id/btn_BaseListAdapter" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

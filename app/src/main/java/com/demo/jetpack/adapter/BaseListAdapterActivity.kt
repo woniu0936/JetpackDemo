@@ -63,7 +63,7 @@ class BaseListAdapterActivity : AppCompatActivity() {
                 }
             }
 
-            onViewClick { _, item, _ ->
+            onClick { item, _ ->
                 val newList = adapter.currentList.map { repo ->
                     if (repo.id == item.id) repo.copy(
                         stars = repo.stars + 1,
