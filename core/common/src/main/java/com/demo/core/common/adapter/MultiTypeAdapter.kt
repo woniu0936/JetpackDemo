@@ -52,7 +52,7 @@ import androidx.viewbinding.ViewBinding
  * )
  * adapter.submitList(items)
  */
-class MultiTypeAdapter private constructor(
+class MultiTypeAdapter internal  constructor(
     private val diffCallback: MultiTypeDiffCallback = MultiTypeDiffCallback()
 )  : ListAdapter<Any, MultiTypeAdapter.BindingViewHolder<ViewBinding>>(diffCallback) {
 
@@ -60,6 +60,8 @@ class MultiTypeAdapter private constructor(
         // 绑定引用，供 DiffUtil 路由使用
         diffCallback.adapter = this
     }
+
+    constructor() : this(MultiTypeDiffCallback())
 
     @PublishedApi
     internal val binders = SparseArray<ItemBinder<Any, ViewBinding>>()
