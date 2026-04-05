@@ -6,6 +6,7 @@ import com.demo.core.common.delegate.viewBinding
 import com.demo.core.common.shake.registerShakeDetector
 import com.demo.core.logger.logger
 import com.demo.jetpack.adapter.BaseListAdapterActivity
+import com.demo.jetpack.adapter.MultiTypeAdapterActivity
 import com.demo.jetpack.core.extension.startActivity
 import com.demo.jetpack.databinding.ActivityMainBinding
 import com.demo.jetpack.databinding.ActivityMainBinding.inflate
@@ -132,6 +133,11 @@ class MainActivity : AppCompatActivity() {
         btnBaseListAdapter.setOnClickListener {
             log.d { "BaseListAdapter button clicked." }
             startActivity<BaseListAdapterActivity>(this@MainActivity)
+        }
+
+        btnMultiTypeAdapter.setOnClickListener {
+            log.d { "MultiTypeAdapter button clicked." }
+            startActivity<MultiTypeAdapterActivity>(this@MainActivity)
         }
 
         scroll.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
