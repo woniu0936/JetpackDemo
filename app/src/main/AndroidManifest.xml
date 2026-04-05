@@ -89,6 +89,9 @@
             android:name=".adapter.BaseListAdapterActivity"
             android:exported="true" />
         <activity
+            android:name=".adapter.BaseAdapterActivity"
+            android:exported="true" />
+        <activity
             android:name=".adapter.MultiTypeAdapterActivity"
             android:exported="true" />
     </application>

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.demo.core.common.delegate.viewBinding
 import com.demo.core.common.shake.registerShakeDetector
 import com.demo.core.logger.logger
+import com.demo.jetpack.adapter.BaseAdapterActivity
 import com.demo.jetpack.adapter.BaseListAdapterActivity
 import com.demo.jetpack.adapter.MultiTypeAdapterActivity
 import com.demo.jetpack.core.extension.startActivity
@@ -133,6 +134,11 @@ class MainActivity : AppCompatActivity() {
         btnBaseListAdapter.setOnClickListener {
             log.d { "BaseListAdapter button clicked." }
             startActivity<BaseListAdapterActivity>(this@MainActivity)
+        }
+
+        btnBaseAdapter.setOnClickListener {
+            log.d { "BaseAdapter button clicked." }
+            startActivity<BaseAdapterActivity>(this@MainActivity)
         }
 
         btnMultiTypeAdapter.setOnClickListener {

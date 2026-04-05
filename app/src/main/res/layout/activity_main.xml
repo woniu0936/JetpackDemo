@@ -210,6 +210,17 @@
             app:layout_constraintTop_toBottomOf="@id/btn_datastore" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_BaseAdapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:text="BaseAdapter"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_BaseListAdapter" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_MultiTypeAdapter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -218,7 +229,7 @@
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_BaseListAdapter" />
+            app:layout_constraintTop_toBottomOf="@id/btn_BaseAdapter" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

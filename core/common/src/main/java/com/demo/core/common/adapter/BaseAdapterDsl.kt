@@ -46,6 +46,34 @@ class AdapterBuilder<T, VB : ViewBinding> {
  *
  * @param bindingInflater ViewBinding 的 inflate 方法，如 `ItemUserBinding::inflate`
  * @param setup DSL 配置块
+ *
+ * @example
+ * val adapter = buildAdapter<RepoInfo, RepoItemBinding>(RepoItemBinding::inflate) {
+ *     onBind { item, _ ->
+ *         nameText.text = item.name
+ *         descriptionText.text = item.description
+ *         starCountText.text = "★ ${item.stars}"
+ *         checkbox.isChecked = item.selected
+ *     }
+ *
+ *     onBindPayloads { item, _, payloads ->
+ *         when {
+ *             payloads.contains("PAYLOAD_SELECTION") -> checkbox.isChecked = item.selected
+ *             payloads.contains("PAYLOAD_STARS") -> starCountText.text = "★ ${item.stars}"
+ *             else -> onBind(item, 0)
+ *         }
+ *     }
+ *
+ *     onClick { item, _ ->
+ *         val next = adapter.getCurrentList().map { repo ->
+ *             if (repo.id == item.id) repo.copy(stars = repo.stars + 1, selected = !repo.selected)
+ *             else repo
+ *         }
+ *         adapter.setData(next)
+ *     }
+ * }
+ * recyclerView.adapter = adapter
+ * adapter.setData(sampleRepos())
  */
 fun <T, VB : ViewBinding> buildAdapter(
     bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
